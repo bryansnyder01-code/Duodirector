@@ -56,7 +56,8 @@ final class HaishinKitTransport: LiveStreamTransport, @unchecked Sendable {
         guard lock.withLock({ isPublishing }) else { return }
         // VERIFY: name/actor of the append API. If it's async/actor-isolated, wrap in a
         // Task here and keep a small queue so capture queues never block.
-        Task { try? await stream.append(sampleBuffer) }
+        nonisolated(unsafe) let buffer = sampleBuffer      // handed off once, never mutated
+        Task { await stream.append(buffer) }
     }
 
     func setVideoBitrate(_ bitsPerSecond: Int) async {

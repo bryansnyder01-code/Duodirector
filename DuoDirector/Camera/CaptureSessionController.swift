@@ -412,7 +412,8 @@ final class CaptureSessionController: NSObject, @unchecked Sendable {
         movieOutput.setOutputSettings(settings, for: connection)
     }
 
-    private static let hlgColorProperties: [String: Any] = [
+    // Immutable after init; [String: Any] just can't be proven Sendable.
+    private nonisolated(unsafe) static let hlgColorProperties: [String: Any] = [
         AVVideoColorPrimariesKey: AVVideoColorPrimaries_ITU_R_2020,
         AVVideoTransferFunctionKey: AVVideoTransferFunction_ITU_R_2100_HLG,
         AVVideoYCbCrMatrixKey: AVVideoYCbCrMatrix_ITU_R_2020,

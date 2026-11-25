@@ -310,7 +310,7 @@ private final class MultipeerBridge: NSObject, MCSessionDelegate, MCNearbyServic
     weak var owner: RemoteProducerLink?
     @MainActor init(owner: RemoteProducerLink) { self.owner = owner }
 
-    private func onMain(_ work: @escaping @MainActor (RemoteProducerLink) -> Void) {
+    private func onMain(_ work: @escaping @Sendable @MainActor (RemoteProducerLink) -> Void) {
         Task { @MainActor [weak self] in if let owner = self?.owner { work(owner) } }
     }
 

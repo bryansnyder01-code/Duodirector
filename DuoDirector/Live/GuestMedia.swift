@@ -37,7 +37,11 @@ final class GuestFrameStore: Sendable {
     private struct Box: @unchecked Sendable { var buffer: CVPixelBuffer?; var at: Date? }
     private let box = OSAllocatedUnfairLock(initialState: Box())
 
-    func put(_ buffer: CVPixelBuffer) { box.withLock { $0 = Box(buffer: buffer, at: .now) } }
+    func put(_ buffer: CVPixelBuffer) {
+        // CVPixelBuffer is immutable once rendered; the lock guards the slot, not the pixels.
+        nonisolated(unsafe) let frame = buffer
+        box.withLock { $0 = Box(buffer: frame, at: .now) }
+    }
     func clear() { box.withLock { $0 = Box() } }
     /// The frame, only if it's fresh (a frozen guest shouldn't stay in the stream).
     func freshFrame(now: Date = .now) -> CVPixelBuffer? {
@@ -138,11 +142,13 @@ final class GuestAudioMixer: @unchecked Sendable {
         let ratio = floatTarget.sampleRate / buffer.format.sampleRate
         let capacity = AVAudioFrameCount(Double(buffer.frameLength) * ratio) + 32
         guard let out = AVAudioPCMBuffer(pcmFormat: floatTarget, frameCapacity: capacity) else { return }
-        var fed = false
+        // The input block runs synchronously inside convert(); a box keeps Swift 6 happy.
+        final class Once: @unchecked Sendable { var fed = false }
+        let once = Once()
         var error: NSError?
         conv.convert(to: out, error: &error) { _, status in
-            if fed { status.pointee = .noDataNow; return nil }
-            fed = true; status.pointee = .haveData; return buffer
+            if once.fed { status.pointee = .noDataNow; return nil }
+            once.fed = true; status.pointee = .haveData; return buffer
         }
         guard error == nil, let data = out.floatChannelData?[0] else { return }
         let count = Int(out.frameLength) * Int(floatTarget.channelCount)

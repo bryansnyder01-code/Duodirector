@@ -10,7 +10,9 @@
 #    DEVELOPMENT_TEAM (your 10-character team ID).
 #  The API key needs the App Manager role so Xcode can manage signing automatically.
 #
-#  VERIFY on first run: the runner label (macos-26) and that its Xcode has the iOS 27.1
+#  Runs on GitHub's xcode-27 image (GA 2026-10-15, actions/runner-images#15397), which has
+#  the iOS 27 SDK, so compat mode is skipped. The sdk step still falls back to compat on
+#  an older image. VERIFY the iOS 27.1
 #  SDK. If the "iPhone Duo" simulator isn't installed, tests fall back to any iPhone.
 # =====================================================================================
 name: iOS
@@ -32,7 +34,7 @@ concurrency:
 
 jobs:
   build-and-test:
-    runs-on: macos-26
+    runs-on: xcode-27
     timeout-minutes: 45
     steps:
       - uses: actions/checkout@v4
@@ -89,7 +91,7 @@ jobs:
   # App Store screenshots from the UI tests (Demo Mode, synthetic cameras, 9:41 status bar).
   screenshots:
     needs: build-and-test
-    runs-on: macos-26
+    runs-on: xcode-27
     timeout-minutes: 45
     steps:
       - uses: actions/checkout@v4
@@ -137,6 +139,9 @@ jobs:
           mkdir -p Screenshots
           xcrun xcresulttool export attachments --path Screenshots.xcresult --output-path Screenshots || true
           ls -la Screenshots
+          # Failure attachments (element debug descriptions) go to the log, since the
+          # artifact isn't always easy to open.
+          for f in Screenshots/*.txt; do if [ -f "$f" ]; then echo "::group::$f"; cat "$f"; echo "::endgroup::"; fi; done
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -146,7 +151,7 @@ jobs:
   archive-and-upload:
     if: github.event_name == 'workflow_dispatch' && inputs.upload
     needs: build-and-test
-    runs-on: macos-26
+    runs-on: xcode-27
     timeout-minutes: 60
     steps:
       - uses: actions/checkout@v4
@@ -156,7 +161,7 @@ jobs:
         run: |
           v=$(xcrun --sdk iphoneos --show-sdk-version)
           if [ "${v%%.*}" -lt 27 ]; then
-            echo "::error::This runner only has the iOS $v SDK. App Store builds need Xcode 27 (iOS 27.1 SDK). Use a self-hosted Mac runner or wait for GitHub's image update."
+            echo "::error::This runner only has the iOS $v SDK. App Store builds need Xcode 27 (iOS 27.1 SDK). Use the xcode-27 runner label."
             exit 1
           fi
       - name: Generate project (1.0 = no LiveKit)

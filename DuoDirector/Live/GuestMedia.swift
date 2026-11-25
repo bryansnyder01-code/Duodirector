@@ -45,7 +45,8 @@ final class GuestFrameStore: Sendable {
     func clear() { box.withLock { $0 = Box() } }
     /// The frame, only if it's fresh (a frozen guest shouldn't stay in the stream).
     func freshFrame(now: Date = .now) -> CVPixelBuffer? {
-        box.withLock { GuestPolicy.isFresh(lastFrameAt: $0.at, now: now) ? $0.buffer : nil }
+        let slot = box.withLock { $0 }          // Box is the Sendable wrapper
+        return GuestPolicy.isFresh(lastFrameAt: slot.at, now: now) ? slot.buffer : nil
     }
 }
 

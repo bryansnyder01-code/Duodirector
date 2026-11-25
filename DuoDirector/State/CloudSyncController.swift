@@ -280,11 +280,11 @@ final class CloudSyncController {
         } onChange: { [weak self] in
             Task { @MainActor in
                 guard let self else { return }
-                if let remote = pendingRemote, !state.isRecording, !state.isDemoMode {
-                    pendingRemote = nil
-                    receive(remote)
+                if let remote = self.pendingRemote, !self.state.isRecording, !self.state.isDemoMode {
+                    self.pendingRemote = nil
+                    self.receive(remote)
                 }
-                watchRecordingForPendingPull()
+                self.watchRecordingForPendingPull()
             }
         }
     }

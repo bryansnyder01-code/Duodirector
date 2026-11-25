@@ -253,3 +253,35 @@ struct AudioGainControl: View {
         }
     }
 }
+
+/// Phase 11: microphone picker, mic mode and headphone check (Settings › Audio).
+struct AudioInputControls: View {
+    let route: AudioRouteController
+
+    var body: some View {
+        if route.inputs.count > 1 {
+            Picker("Microphone", selection: Binding(get: { route.selectedInputID ?? "" }, set: { route.select($0) })) {
+                ForEach(route.inputs) { input in
+                    Label(input.name, systemImage: input.kind.symbol).tag(input.id)
+                }
+            }
+        } else {
+            LabeledContent("Microphone", value: route.selectedInput?.name ?? String(localized: "iPhone"))
+        }
+        if let note = route.selectedInput.flatMap({ AudioRoutePolicy.qualityNote(for: $0.kind) }) {
+            Label(note, systemImage: "exclamationmark.triangle").font(.footnote).foregroundStyle(.orange)
+        }
+        Button {
+            route.showMicModes()
+        } label: {
+            LabeledContent("Mic mode", value: AudioRoutePolicy.micModeLabel(route.micMode))
+        }
+        .accessibilityHint("Opens the system picker for Voice Isolation and Wide Spectrum")
+        Label(route.headphonesConnected
+              ? String(localized: "Headphones: \(route.outputName)")
+              : String(localized: "No headphones. Playback and guests come out of the speaker."),
+              systemImage: route.headphonesConnected ? "headphones" : "speaker.wave.2")
+            .font(.footnote)
+            .foregroundStyle(route.headphonesConnected ? Color.secondary : Color.orange)
+    }
+}

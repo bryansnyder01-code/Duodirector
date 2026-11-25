@@ -41,7 +41,9 @@ targets:
     platform: iOS
     sources:
       - path: DuoDirector
+      - path: Shared            # Phase 11: Live Activity attributes, shared with the widget
     dependencies:
+      - target: DuoDirectorWidgets   # Phase 11: Live Activity (embedded app extension)
       - package: HaishinKit
         product: HaishinKit
       - package: HaishinKit
@@ -69,6 +71,10 @@ targets:
         NSCameraUsageDescription: DuoDirector uses the rear and inner cameras to record video.
         NSMicrophoneUsageDescription: DuoDirector records audio with your video and shows live audio levels.
         NSPhotoLibraryAddUsageDescription: DuoDirector saves finished takes to your photo library.
+        # Phase 11: on-device captions. The app refuses server recognition.
+        NSSpeechRecognitionUsageDescription: DuoDirector turns what's said in a take into captions, on this iPhone. Audio is never sent anywhere.
+        # Phase 11: the recording timer on the Lock Screen and in the Dynamic Island.
+        NSSupportsLiveActivities: true
         # Phase 4: Documents/Takes (both .movs + JSON/FCPXML sidecars) shows up in the Files
         # app under "DuoDirector", so creators can AirDrop a take folder to their Mac.
         UIFileSharingEnabled: true
@@ -96,6 +102,26 @@ targets:
         ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
         GENERATE_INFOPLIST_FILE: NO
         CODE_SIGN_ENTITLEMENTS: DuoDirector/Resources/DuoDirector.entitlements   # Phase 6: iCloud Documents
+
+  # Phase 11: Live Activity (recording timer on the Lock Screen and Dynamic Island).
+  DuoDirectorWidgets:
+    type: app-extension
+    platform: iOS
+    sources:
+      - path: DuoDirectorWidgets
+      - path: Shared
+    info:
+      path: DuoDirectorWidgets/Info.plist
+      properties:
+        CFBundleDisplayName: DuoDirector
+        CFBundleShortVersionString: "1.0"
+        CFBundleVersion: "$(CURRENT_PROJECT_VERSION)"
+        NSExtension:
+          NSExtensionPointIdentifier: com.apple.widgetkit-extension
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.duodirector.app.widgets
+        GENERATE_INFOPLIST_FILE: NO
 
   # Phase 5: unit tests (Swift Testing). Run with ⌘U or:
   #   xcodebuild test -scheme DuoDirector -destination 'platform=iOS Simulator,name=iPhone Duo'

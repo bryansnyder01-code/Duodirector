@@ -60,6 +60,10 @@ final class CameraEngine {
     var liveStream: LiveStreamController?
     /// Phase 9: remote guests (LiveKit). Created in DuoDirectorApp.
     var guests: GuestSessionController?
+    /// Phase 11: Lock Screen / Dynamic Island record timer. nil in UI tests.
+    var recordingActivity: RecordingActivityController?
+    /// Phase 11: the one social export allowed at a time, and caption jobs.
+    private var socialTask: Task<Void, Never>?
 
     init(state: StudioSessionState) {
         self.state = state
@@ -345,6 +349,8 @@ final class CameraEngine {
                               shotTitle: state.activeShot?.title)
         state.takes.append(take)
         state.status = .recording(startedAt: start)
+        recordingActivity?.start(takeNumber: state.takeNumber, startedAt: start,
+                                 isLive: state.liveState.isLive, projectName: state.activeShot?.title)
         AccessibilityNotification.Announcement(String(localized: "Recording take \(state.takeNumber)")).post()
         state.recordingDuration = 0
         state.lastSaveMessage = nil
@@ -371,6 +377,7 @@ final class CameraEngine {
         guard state.isRecording else { return }
         state.setPrompterPlaying(false)
         durationTask?.cancel()
+        recordingActivity?.end()
         AccessibilityNotification.Announcement(String(localized: "Recording stopped")).post()
         if let start = state.recordingStart { state.recordingDuration = Date().timeIntervalSince(start) }
 
@@ -404,7 +411,10 @@ final class CameraEngine {
             // the file, so the Photos copy has them too. Never blocks saving on failure.
             await writeChapters(into: [recording.rearURL, recording.innerURL].compactMap { $0 })
             await saveToPhotos([recording.rearURL, recording.innerURL].compactMap { $0 })
-            if let take = state.takes.last(where: { $0.takeNumber == state.takeNumber }) { cloudSync?.uploadTake(take) }
+            if let take = state.takes.last(where: { $0.takeNumber == state.takeNumber }) {
+                cloudSync?.uploadTake(take)
+                if state.autoCaptionTakes { generateCaptions(takeID: take.id, quiet: true) }
+            }
         case .failure(let error):
             state.lastSaveMessage = "Recording failed: \(error.localizedDescription)"
         }
@@ -506,13 +516,77 @@ final class CameraEngine {
         }
     }
 
+    // MARK: Captions & social export (Phase 11)
+
+    /// Transcribes a take on the phone and saves `<take>.srt` next to its files.
+    /// `quiet`: auto-captions after a take only report failures in the status note.
+    func generateCaptions(takeID: TakeRecord.ID, quiet: Bool = false) {
+        guard !state.captioningTakeIDs.contains(takeID),
+              let take = state.takes.first(where: { $0.id == takeID }),
+              let source = [take.rearFileURL, take.compositeFileURL].compactMap({ $0 })
+                .first(where: { FileManager.default.fileExists(atPath: $0.path) }) else { return }
+        state.captioningTakeIDs.insert(takeID)
+        Task { [weak self] in
+            do {
+                let url = try await CaptionTranscriber.makeCaptions(for: source)
+                guard let self else { return }
+                if let i = state.takes.firstIndex(where: { $0.id == takeID }) {
+                    state.takes[i].captionsURL = url
+                    cloudSync?.uploadTake(state.takes[i])
+                }
+                if !quiet { state.showBanner(String(localized: "Captions ready for take \(take.takeNumber).")) }
+            } catch {
+                if quiet { self?.state.statusNote = String(localized: "Captions skipped: \(error.localizedDescription)") }
+                else { self?.state.showBanner(error.localizedDescription) }
+            }
+            self?.state.captioningTakeIDs.remove(takeID)
+        }
+    }
+
+    var socialExportVerdict: CompositeRenderPolicy.Verdict {
+        SocialExportPolicy.verdict(isRecording: state.isRecording || state.status == .saving,
+                                   isRendering: renderTask != nil || socialTask != nil,
+                                   thermal: ThermalPolicy.effectiveLevel(thermal: state.thermalState, cameraPressure: cameraPressure),
+                                   isCharging: state.isCharging, batteryLevel: state.batteryLevel)
+    }
+
+    func exportForSocial(takeID: TakeRecord.ID, options: SocialExporter.Options) {
+        guard case .allowed = socialExportVerdict else {
+            if case .blocked(let reason) = socialExportVerdict { state.showBanner(reason) }
+            return
+        }
+        guard let take = state.takes.first(where: { $0.id == takeID }) else { return }
+        state.socialExportProgress[takeID] = 0
+        socialTask = Task { [weak self] in
+            do {
+                let url = try await SocialExporter.export(take: take, options: options) { fraction in
+                    Task { @MainActor in self?.state.socialExportProgress[takeID] = fraction }
+                }
+                guard let self else { return }
+                if let i = state.takes.firstIndex(where: { $0.id == takeID }) { state.takes[i].socialExportURL = url }
+                await saveCompositeToPhotos(url)
+            } catch {
+                self?.state.showBanner(String(localized: "Export didn't finish: \(error.localizedDescription)"))
+            }
+            self?.state.socialExportProgress[takeID] = nil
+            self?.socialTask = nil
+        }
+    }
+
+    func cancelSocialExport() {
+        socialTask?.cancel()
+        socialTask = nil
+        state.socialExportProgress.removeAll()
+    }
+
     // MARK: Takes management (Phase 5)
 
     /// Deletes a take's files (camera files, sidecars, composite) and its markers.
     /// Photos copies are left alone on purpose: the app only has add-only access.
     func deleteTake(_ id: TakeRecord.ID) {
         guard let take = state.takes.first(where: { $0.id == id }), !(state.isRecording && take.takeNumber == state.takeNumber) else { return }
-        for url in [take.rearFileURL, take.innerFileURL, take.sidecarJSONURL, take.sidecarFCPXMLURL, take.compositeFileURL].compactMap({ $0 }) {
+        for url in [take.rearFileURL, take.innerFileURL, take.sidecarJSONURL, take.sidecarFCPXMLURL, take.compositeFileURL,
+                    take.captionsURL, take.socialExportURL].compactMap({ $0 }) {
             try? FileManager.default.removeItem(at: url)
         }
         // Phase 7: tombstones so iCloud propagates the deletion instead of restoring it.
@@ -568,6 +642,7 @@ final class CameraEngine {
     func dropMarker(rating: Int = 3, note: String? = nil) {
         guard state.isRecording else { return }
         writeMarkerIntoFiles(state.addMarker(note: note, rating: rating))
+        recordingActivity?.update(markerCount: state.markers(forTake: state.takeNumber).count)
     }
 
     /// Phase 5: the same marker also goes into the .mov's timed-metadata track

@@ -24,6 +24,7 @@ packages:
 targets:
   DuoDirector:
     dependencies:
+      - target: DuoDirectorWidgets
       - package: HaishinKit
         product: HaishinKit
       - package: HaishinKit

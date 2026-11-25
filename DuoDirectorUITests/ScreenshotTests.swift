@@ -73,8 +73,13 @@ final class ScreenshotTests: XCTestCase {
     @MainActor func test05Diagnostics() {
         let app = launch(scene: "diagnostics")
         waitFor("diagnostics", in: app)
-        // The sheet slides in with a glass blur. Wait it out, or the shot is blurry.
-        snapshot(app, "05-launch-diagnostics", settle: 4)
+        // The sheet opens full height for this scene. Wait until it has finished sliding
+        // up (the Done button is hittable) so the glass isn't caught mid-blur.
+        let done = app.buttons["Done"]
+        _ = done.waitForExistence(timeout: 10)
+        let deadline = Date().addingTimeInterval(10)
+        while !done.isHittable && Date() < deadline { Thread.sleep(forTimeInterval: 0.25) }
+        snapshot(app, "05-launch-diagnostics", settle: 3)
     }
 
     // MARK: Smoke

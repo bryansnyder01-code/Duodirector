@@ -1,0 +1,66 @@
+{
+  "sourceLanguage": "en",
+  "strings": {
+    "CFBundleDisplayName": {
+      "comment": "Info.plist",
+      "extractionState": "manual",
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DuoDirector"
+          }
+        }
+      }
+    },
+    "NSCameraUsageDescription": {
+      "comment": "Info.plist",
+      "extractionState": "manual",
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DuoDirector usa las cámaras trasera e interior para grabar vídeo."
+          }
+        }
+      }
+    },
+    "NSLocalNetworkUsageDescription": {
+      "comment": "Info.plist",
+      "extractionState": "manual",
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DuoDirector se conecta a un iPhone o iPad cercano que tú elijas para usarlo como mando de producción."
+          }
+        }
+      }
+    },
+    "NSMicrophoneUsageDescription": {
+      "comment": "Info.plist",
+      "extractionState": "manual",
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DuoDirector graba audio con tu vídeo y muestra los niveles de audio en directo."
+          }
+        }
+      }
+    },
+    "NSPhotoLibraryAddUsageDescription": {
+      "comment": "Info.plist",
+      "extractionState": "manual",
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DuoDirector guarda las tomas terminadas en tu fototeca."
+          }
+        }
+      }
+    }
+  },
+  "version": "1.0"
+}

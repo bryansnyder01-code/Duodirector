@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+  Phase 6: iCloud Drive (CloudDocuments) for project + take sync.
+  Create the container "iCloud.com.duodirector.app" in Certificates, Identifiers & Profiles
+  (or let Xcode's Signing & Capabilities do it) and enable iCloud › iCloud Documents on the App ID.
+  Change the identifier everywhere (here, project.yml NSUbiquitousContainers and
+  CloudSyncController.containerIdentifier) if you use a different bundle ID.
+-->
+<plist version="1.0">
+<dict>
+	<key>com.apple.developer.icloud-container-identifiers</key>
+	<array><string>iCloud.com.duodirector.app</string></array>
+	<key>com.apple.developer.icloud-services</key>
+	<array><string>CloudDocuments</string></array>
+	<key>com.apple.developer.ubiquity-container-identifiers</key>
+	<array><string>iCloud.com.duodirector.app</string></array>
+</dict>
+</plist>

@@ -1,0 +1,2929 @@
+{
+  "sourceLanguage": "en",
+  "strings": {
+    "%@ joined. Headphones on to avoid echo.": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ se ha unido. Ponte auriculares para evitar eco."
+          }
+        }
+      }
+    },
+    "16:9 guide": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Guía 16:9"
+          }
+        }
+      }
+    },
+    "16:9 guide (YouTube)": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Guía 16:9 (YouTube)"
+          }
+        }
+      }
+    },
+    "5.4″ cover display": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pantalla exterior de 5,4″"
+          }
+        }
+      }
+    },
+    "7.6″ inner display, flat": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pantalla interior de 7,6″, abierta"
+          }
+        }
+      }
+    },
+    "9:16 guide": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Guía 9:16"
+          }
+        }
+      }
+    },
+    "9:16 guide (Reels/TikTok)": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Guía 9:16 (Reels/TikTok)"
+          }
+        }
+      }
+    },
+    "A composite is already rendering.": {
+      "extractionState": "manual",
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ya se está renderizando una composición."
+          }
+        }
+      }
+    },
+    "A producer on another iPhone or iPad can start and stop takes, drop markers, rate takes and drive the prompter. You approve every connection. Nothing is sent over the internet.": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Un productor en otro iPhone o iPad puede iniciar y detener tomas, añadir marcadores, valorar tomas y controlar el teleprompter. Tú apruebas cada conexión. No se envía nada por internet."
+          }
+        }
+      }
+    },
+    "A studio for iPhone Duo: shoot with the rear camera while the cover display shows you the shot.": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Un estudio para iPhone Duo: graba con la cámara trasera mientras la pantalla exterior te muestra el plano."
+          }
+        }
+      }
+    },
+    "About": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Información"
+          }
+        }
+      }
+    },
+    "About & acknowledgements": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Información y agradecimientos"
+          }
+        }
+      }
+    },
+    "Acknowledgements": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Agradecimientos"
+          }
+        }
+      }
+    },
+    "Active cameras": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cámaras activas"
+          }
+        }
+      }
+    },
+    "Add": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Añadir"
+          }
+        }
+      }
+    },
+    "Add a destination first.": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Añade primero un destino."
+          }
+        }
+      }
+    },
+    "Add destination": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Añadir destino"
+          }
+        }
+      }
+    },
+    "Add key": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Añadir clave"
+          }
+        }
+      }
+    },
+    "Add shot": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Añadir plano"
+          }
+        }
+      }
+    },
+    "Add your token endpoint (https://…), or paste a development token.": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Añade tu endpoint de tokens (https://…) o pega un token de desarrollo."
+          }
+        }
+      }
+    },
+    "Advanced": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Avanzado"
+          }
+        }
+      }
+    },
+    "Allow": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Permitir"
+          }
+        }
+      }
+    },
+    "Allow a remote to connect": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Permitir que se conecte un mando"
+          }
+        }
+      }
+    },
+    "Allow remote control?": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "¿Permitir el control remoto?"
+          }
+        }
+      }
+    },
+    "Also sync video files": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sincronizar también los vídeos"
+          }
+        }
+      }
+    },
+    "Attach sketch automatically": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Adjuntar boceto automáticamente"
+          }
+        }
+      }
+    },
+    "Attach sketch to shot": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Adjuntar boceto al plano"
+          }
+        }
+      }
+    },
+    "Audio": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Audio"
+          }
+        }
+      }
+    },
+    "Audio gain": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ganancia de audio"
+          }
+        }
+      }
+    },
+    "Audio level": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nivel de audio"
+          }
+        }
+      }
+    },
+    "Auto exposure": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Exposición automática"
+          }
+        }
+      }
+    },
+    "Auto white balance": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Balance de blancos automático"
+          }
+        }
+      }
+    },
+    "Auto-render Dual-Cam composites": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Renderizar composiciones Dual-Cam automáticamente"
+          }
+        }
+      }
+    },
+    "Autofocus": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enfoque automático"
+          }
+        }
+      }
+    },
+    "Battery": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Batería"
+          }
+        }
+      }
+    },
+    "Battery below 10%. Plug in to keep shooting.": {
+      "extractionState": "manual",
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Batería por debajo del 10 %. Conéctalo para seguir grabando."
+          }
+        }
+      }
+    },
+    "Bottom left": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Abajo a la izquierda"
+          }
+        }
+      }
+    },
+    "Bottom right": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Abajo a la derecha"
+          }
+        }
+      }
+    },
+    "Camera": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cámara"
+          }
+        }
+      }
+    },
+    "Camera access is off": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "El acceso a la cámara está desactivado"
+          }
+        }
+      }
+    },
+    "Camera and microphone": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cámara y micrófono"
+          }
+        }
+      }
+    },
+    "Camera is streaming live": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "La cámara está transmitiendo en directo"
+          }
+        }
+      }
+    },
+    "Camera settings": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ajustes de cámara"
+          }
+        }
+      }
+    },
+    "Camera system pressure": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Presión del sistema de cámara"
+          }
+        }
+      }
+    },
+    "Cameras": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cámaras"
+          }
+        }
+      }
+    },
+    "Capabilities": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Capacidades"
+          }
+        }
+      }
+    },
+    "Capture": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Captura"
+          }
+        }
+      }
+    },
+    "Capture mode": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Modo de captura"
+          }
+        }
+      }
+    },
+    "Cinema": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cine"
+          }
+        }
+      }
+    },
+    "Clear sketch": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Borrar boceto"
+          }
+        }
+      }
+    },
+    "CLIP": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "SATURA"
+          }
+        }
+      }
+    },
+    "Close room": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cerrar sala"
+          }
+        }
+      }
+    },
+    "Close the guest room before switching to Dual-Cam.": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cierra la sala de invitados antes de cambiar a Dual-Cam."
+          }
+        }
+      }
+    },
+    "Codec": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Códec"
+          }
+        }
+      }
+    },
+    "Composite": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Composición"
+          }
+        }
+      }
+    },
+    "Composites render only between takes, while the iPhone is cool and charging, and stop if it warms up. Video sync uploads every take's files to iCloud Drive › DuoDirector › Takes, which can use a lot of iCloud storage.": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Las composiciones solo se renderizan entre tomas, con el iPhone frío y cargando, y se detienen si se calienta. La sincronización de vídeo sube los archivos de cada toma a iCloud Drive › DuoDirector › Takes, lo que puede ocupar mucho espacio de iCloud."
+          }
+        }
+      }
+    },
+    "Connecting…": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Conectando…"
+          }
+        }
+      }
+    },
+    "Continue": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Continuar"
+          }
+        }
+      }
+    },
+    "Couldn't connect to %@. Check the server and stream key.": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No se pudo conectar a %@. Revisa el servidor y la clave de transmisión."
+          }
+        }
+      }
+    },
+    "Couldn't create a guest invite.": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No se pudo crear la invitación."
+          }
+        }
+      }
+    },
+    "Couldn't get a room token from your endpoint.": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No se pudo obtener un token de sala de tu endpoint."
+          }
+        }
+      }
+    },
+    "Couldn't join the guest room. Check the server and token.": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No se pudo entrar en la sala de invitados. Revisa el servidor y el token."
+          }
+        }
+      }
+    },
+    "Couldn't save the stream key to the Keychain.": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No se pudo guardar la clave de transmisión en el llavero."
+          }
+        }
+      }
+    },
+    "Countdown": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cuenta atrás"
+          }
+        }
+      }
+    },
+    "Cover display (simulated)": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pantalla exterior (simulada)"
+          }
+        }
+      }
+    },
+    "Cover display accessory": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Accesorio de pantalla exterior"
+          }
+        }
+      }
+    },
+    "Cover display monitor": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Monitor en pantalla exterior"
+          }
+        }
+      }
+    },
+    "Cover monitor is back.": {
+      "extractionState": "manual",
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "El monitor exterior ha vuelto."
+          }
+        }
+      }
+    },
+    "Cover monitor resumed.": {
+      "extractionState": "manual",
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Monitor exterior reanudado."
+          }
+        }
+      }
+    },
+    "Cover monitor was withdrawn by iOS. Prompter and controls are on this screen.": {
+      "extractionState": "manual",
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "iOS ha retirado el monitor exterior. El teleprompter y los controles están en esta pantalla."
+          }
+        }
+      }
+    },
+    "Create invite link": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Crear enlace de invitación"
+          }
+        }
+      }
+    },
+    "Decline": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rechazar"
+          }
+        }
+      }
+    },
+    "Delete": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eliminar"
+          }
+        }
+      }
+    },
+    "Delete files and markers": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eliminar archivos y marcadores"
+          }
+        }
+      }
+    },
+    "Delete take": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eliminar toma"
+          }
+        }
+      }
+    },
+    "Demo Mode": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Modo demo"
+          }
+        }
+      }
+    },
+    "Demo Mode / App Store Preview": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Modo demo / vista previa del App Store"
+          }
+        }
+      }
+    },
+    "Demo Mode on: sample podcast loaded.": {
+      "extractionState": "manual",
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Modo demo activado: pódcast de ejemplo cargado."
+          }
+        }
+      }
+    },
+    "Demo/mock camera: a simulated guest joins and nothing is sent.": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cámara de demostración: se une un invitado simulado y no se envía nada."
+          }
+        }
+      }
+    },
+    "Demo/mock camera: the stream is simulated and nothing is sent.": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cámara de demostración: la transmisión es simulada y no se envía nada."
+          }
+        }
+      }
+    },
+    "Destination": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Destino"
+          }
+        }
+      }
+    },
+    "Details": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Detalles"
+          }
+        }
+      }
+    },
+    "Development token (not saved)": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Token de desarrollo (no se guarda)"
+          }
+        }
+      }
+    },
+    "Disconnect": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Desconectar"
+          }
+        }
+      }
+    },
+    "Dolby Vision HDR": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dolby Vision HDR"
+          }
+        }
+      }
+    },
+    "Done": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "OK"
+          }
+        }
+      }
+    },
+    "Done → Next": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hecho → Siguiente"
+          }
+        }
+      }
+    },
+    "Done, next shot": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hecho, siguiente plano"
+          }
+        }
+      }
+    },
+    "Double-tap to dismiss": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Toca dos veces para cerrar"
+          }
+        }
+      }
+    },
+    "Drag to move to another corner": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Arrastra para moverlo a otra esquina"
+          }
+        }
+      }
+    },
+    "Draw with finger": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dibujar con el dedo"
+          }
+        }
+      }
+    },
+    "Drop Marker": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Añadir marcador"
+          }
+        }
+      }
+    },
+    "Drop marker": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Añadir marcador"
+          }
+        }
+      }
+    },
+    "Dropped frames": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fotogramas perdidos"
+          }
+        }
+      }
+    },
+    "Dual export": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Exportación dual"
+          }
+        }
+      }
+    },
+    "Dual-Cam": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dual-Cam"
+          }
+        }
+      }
+    },
+    "Dual-cam at 4K exceeds this device's camera bandwidth. Using 1080p30.": {
+      "extractionState": "manual",
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dual-Cam en 4K supera el ancho de banda de la cámara de este dispositivo. Se usará 1080p30."
+          }
+        }
+      }
+    },
+    "Dual-Cam is capped at 30fps.": {
+      "extractionState": "manual",
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dual-Cam está limitado a 30 fps."
+          }
+        }
+      }
+    },
+    "Dual-Cam is unavailable: this device doesn't report AVCaptureMultiCamSession support.": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dual-Cam no está disponible: este dispositivo no admite AVCaptureMultiCamSession."
+          }
+        }
+      }
+    },
+    "Dual-Cam Podcast needs MultiCam support, which this device doesn't report.": {
+      "extractionState": "manual",
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "El pódcast Dual-Cam necesita compatibilidad MultiCam, que este dispositivo no indica."
+          }
+        }
+      }
+    },
+    "Dual-Cam uses the Fusion Main camera (1× / 2×).": {
+      "extractionState": "manual",
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dual-Cam usa la cámara principal Fusion (1× / 2×)."
+          }
+        }
+      }
+    },
+    "DuoDirector is built with these open-source projects.": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DuoDirector está hecho con estos proyectos de código abierto."
+          }
+        }
+      }
+    },
+    "DuoDirector needs the camera to record and the microphone for sound and live levels. You'll be asked next.": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DuoDirector necesita la cámara para grabar y el micrófono para el sonido y los niveles en directo. Te lo pediremos a continuación."
+          }
+        }
+      }
+    },
+    "Duration": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Duración"
+          }
+        }
+      }
+    },
+    "DV": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DV"
+          }
+        }
+      }
+    },
+    "Edit script": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Editar guion"
+          }
+        }
+      }
+    },
+    "End stream": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Finalizar transmisión"
+          }
+        }
+      }
+    },
+    "End the live stream before switching to Dual-Cam.": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Finaliza la transmisión antes de cambiar a Dual-Cam."
+          }
+        }
+      }
+    },
+    "Export": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Exportar"
+          }
+        }
+      }
+    },
+    "Exposure, white balance & focus": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Exposición, balance de blancos y enfoque"
+          }
+        }
+      }
+    },
+    "Filter": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Filtro"
+          }
+        }
+      }
+    },
+    "Focus peaking": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Realce de enfoque"
+          }
+        }
+      }
+    },
+    "Format": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Formato"
+          }
+        }
+      }
+    },
+    "Frame rate": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fotogramas por segundo"
+          }
+        }
+      }
+    },
+    "Framing template": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Plantilla de encuadre"
+          }
+        }
+      }
+    },
+    "Free storage": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Almacenamiento libre"
+          }
+        }
+      }
+    },
+    "Give the room a name.": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ponle un nombre a la sala."
+          }
+        }
+      }
+    },
+    "Go Live": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Transmitir en directo"
+          }
+        }
+      }
+    },
+    "Good Take": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Toma buena"
+          }
+        }
+      }
+    },
+    "Grid opacity": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Opacidad de la cuadrícula"
+          }
+        }
+      }
+    },
+    "Guest in corner": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Invitado en la esquina"
+          }
+        }
+      }
+    },
+    "Guest reconnecting": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Invitado reconectando"
+          }
+        }
+      }
+    },
+    "Guest room closed.": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sala de invitados cerrada."
+          }
+        }
+      }
+    },
+    "Guest room open. Invite your guest.": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sala de invitados abierta. Invita a tu invitado."
+          }
+        }
+      }
+    },
+    "Guest video": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vídeo del invitado"
+          }
+        }
+      }
+    },
+    "Guest video paused": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vídeo del invitado en pausa"
+          }
+        }
+      }
+    },
+    "Guests work in Solo mode. Switch off Dual-Cam to open the room.": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Los invitados funcionan en modo Solo. Desactiva Dual-Cam para abrir la sala."
+          }
+        }
+      }
+    },
+    "Guides": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Guías"
+          }
+        }
+      }
+    },
+    "Has sketch": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tiene boceto"
+          }
+        }
+      }
+    },
+    "Hinge": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bisagra"
+          }
+        }
+      }
+    },
+    "Hinge posture": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Postura de la bisagra"
+          }
+        }
+      }
+    },
+    "Histogram": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Histograma"
+          }
+        }
+      }
+    },
+    "Host camera preview": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vista previa de la cámara del presentador"
+          }
+        }
+      }
+    },
+    "Host preview corner": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Esquina de la vista del presentador"
+          }
+        }
+      }
+    },
+    "Host sync offset": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Desfase de sincronía del presentador"
+          }
+        }
+      }
+    },
+    "iCloud": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "iCloud"
+          }
+        }
+      }
+    },
+    "In the stream": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "En la transmisión"
+          }
+        }
+      }
+    },
+    "Ink colour": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Color de tinta"
+          }
+        }
+      }
+    },
+    "Inner sync offset": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Desfase de sincronía interior"
+          }
+        }
+      }
+    },
+    "Invite": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Invitar"
+          }
+        }
+      }
+    },
+    "Invites need a token endpoint. With a pasted token, send the guest their own token.": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Las invitaciones necesitan un endpoint de tokens. Con un token pegado, envía al invitado su propio token."
+          }
+        }
+      }
+    },
+    "iPhone is warm. Peaking & zebras paused to keep recording smooth.": {
+      "extractionState": "manual",
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "El iPhone está caliente. Realce de enfoque y cebras en pausa para que la grabación sea fluida."
+          }
+        }
+      }
+    },
+    "Join me on DuoDirector": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Únete a mí en DuoDirector"
+          }
+        }
+      }
+    },
+    "Key saved": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Clave guardada"
+          }
+        }
+      }
+    },
+    "L R": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "I D"
+          }
+        }
+      }
+    },
+    "Larger text": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Texto más grande"
+          }
+        }
+      }
+    },
+    "Last take": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Última toma"
+          }
+        }
+      }
+    },
+    "Launch": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lanzamiento"
+          }
+        }
+      }
+    },
+    "Launch & Diagnostics": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lanzamiento y diagnóstico"
+          }
+        }
+      }
+    },
+    "Layout": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Disposición"
+          }
+        }
+      }
+    },
+    "Lens": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Objetivo"
+          }
+        }
+      }
+    },
+    "Less than 2 minutes of storage left. Free up space to keep recording.": {
+      "extractionState": "manual",
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Quedan menos de 2 minutos de almacenamiento. Libera espacio para seguir grabando."
+          }
+        }
+      }
+    },
+    "Live stream": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Transmisión en directo"
+          }
+        }
+      }
+    },
+    "Live telemetry": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Telemetría en directo"
+          }
+        }
+      }
+    },
+    "LiveKit room": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sala de LiveKit"
+          }
+        }
+      }
+    },
+    "LiveKit server (wss://…)": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Servidor de LiveKit (wss://…)"
+          }
+        }
+      }
+    },
+    "Loads a podcast script, a sketched shot list, rated takes and markers, Host/Guest audio and dual-cam previews. In the Simulator, cameras are synthetic. Turning it off restores your own script and shot list.": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Carga un guion de pódcast, una lista de planos con bocetos, tomas valoradas y marcadores, audio de presentador e invitado y vistas previas de dos cámaras. En el simulador las cámaras son sintéticas. Al desactivarlo se restauran tu guion y tu lista de planos."
+          }
+        }
+      }
+    },
+    "Looking for DuoDirector cameras nearby…": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Buscando cámaras DuoDirector cercanas…"
+          }
+        }
+      }
+    },
+    "Luminance histogram": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Histograma de luminancia"
+          }
+        }
+      }
+    },
+    "Mark shot done": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Marcar plano como hecho"
+          }
+        }
+      }
+    },
+    "Markers": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Marcadores"
+          }
+        }
+      }
+    },
+    "Markers written to": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Marcadores guardados en"
+          }
+        }
+      }
+    },
+    "Mirror cover preview": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reflejar vista de la pantalla exterior"
+          }
+        }
+      }
+    },
+    "Mirror prompter text": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reflejar texto del teleprompter"
+          }
+        }
+      }
+    },
+    "Mirror text (glass rig)": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reflejar texto (cristal de teleprompter)"
+          }
+        }
+      }
+    },
+    "Mode": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Modo"
+          }
+        }
+      }
+    },
+    "More": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Más"
+          }
+        }
+      }
+    },
+    "More settings": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Más ajustes"
+          }
+        }
+      }
+    },
+    "Name": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nombre"
+          }
+        }
+      }
+    },
+    "New invite link": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nuevo enlace de invitación"
+          }
+        }
+      }
+    },
+    "Next shot": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Siguiente plano"
+          }
+        }
+      }
+    },
+    "No guest": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sin invitado"
+          }
+        }
+      }
+    },
+    "No key": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sin clave"
+          }
+        }
+      }
+    },
+    "No markers": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sin marcadores"
+          }
+        }
+      }
+    },
+    "No video file": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sin archivo de vídeo"
+          }
+        }
+      }
+    },
+    "Not set": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sin configurar"
+          }
+        }
+      }
+    },
+    "Off air": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fuera del aire"
+          }
+        }
+      }
+    },
+    "Open guest room": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Abrir sala de invitados"
+          }
+        }
+      }
+    },
+    "Open it flat to direct, stand it in tabletop for a producer deck, or record yourself and a guest with Dual-Cam.": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ábrelo del todo para dirigir, ponlo en modo mesa como panel de producción o grábate con un invitado en Dual-Cam."
+          }
+        }
+      }
+    },
+    "Open Settings": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Abrir Ajustes"
+          }
+        }
+      }
+    },
+    "Open shot list and sketches": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Abrir lista de planos y bocetos"
+          }
+        }
+      }
+    },
+    "Open this link to join as my guest. It works in any browser.": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Abre este enlace para unirte como mi invitado. Funciona en cualquier navegador."
+          }
+        }
+      }
+    },
+    "Opening room…": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Abriendo sala…"
+          }
+        }
+      }
+    },
+    "Overlays": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Superposiciones"
+          }
+        }
+      }
+    },
+    "Paste the stream key from your platform's dashboard.": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pega la clave de transmisión del panel de tu plataforma."
+          }
+        }
+      }
+    },
+    "Plain RTMP isn't encrypted. Prefer rtmps:// when your platform offers it.": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "RTMP simple no va cifrado. Usa rtmps:// cuando tu plataforma lo ofrezca."
+          }
+        }
+      }
+    },
+    "Playback": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reproducción"
+          }
+        }
+      }
+    },
+    "Preview cover display": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vista previa de la pantalla exterior"
+          }
+        }
+      }
+    },
+    "Privacy policy": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Política de privacidad"
+          }
+        }
+      }
+    },
+    "Project saved": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Proyecto guardado"
+          }
+        }
+      }
+    },
+    "Project, iCloud & exports": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Proyecto, iCloud y exportación"
+          }
+        }
+      }
+    },
+    "pt/s": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "pt/s"
+          }
+        }
+      }
+    },
+    "Quality": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Calidad"
+          }
+        }
+      }
+    },
+    "Rating": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Valoración"
+          }
+        }
+      }
+    },
+    "Real hinge": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bisagra real"
+          }
+        }
+      }
+    },
+    "Real sensor": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sensor real"
+          }
+        }
+      }
+    },
+    "Reconnected. You're live again.": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reconectado. Vuelves a estar en directo."
+          }
+        }
+      }
+    },
+    "Reconnecting (%lld)": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reconectando (%lld)"
+          }
+        }
+      }
+    },
+    "Recording stopped": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Grabación detenida"
+          }
+        }
+      }
+    },
+    "Recording take %lld": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Grabando toma %lld"
+          }
+        }
+      }
+    },
+    "Recover markers from the video file": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Recuperar marcadores del archivo de vídeo"
+          }
+        }
+      }
+    },
+    "Redo": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rehacer"
+          }
+        }
+      }
+    },
+    "Remote guest": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Invitado remoto"
+          }
+        }
+      }
+    },
+    "Remote Producer": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Productor remoto"
+          }
+        }
+      }
+    },
+    "Remote producer": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Productor remoto"
+          }
+        }
+      }
+    },
+    "Removes the camera files, sidecars and composite from DuoDirector. Copies already in Photos stay in Photos.": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Elimina de DuoDirector los archivos de cámara, los archivos auxiliares y la composición. Las copias que ya están en Fotos se quedan en Fotos."
+          }
+        }
+      }
+    },
+    "Rendering composite…": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Renderizando composición…"
+          }
+        }
+      }
+    },
+    "Replace key": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reemplazar clave"
+          }
+        }
+      }
+    },
+    "Reset teleprompter": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reiniciar teleprompter"
+          }
+        }
+      }
+    },
+    "Resolution": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Resolución"
+          }
+        }
+      }
+    },
+    "Room name": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nombre de la sala"
+          }
+        }
+      }
+    },
+    "Room open · waiting": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sala abierta · esperando"
+          }
+        }
+      }
+    },
+    "RTMPS: the stream is encrypted on the way to the platform. The key stays in this phone's Keychain.": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "RTMPS: la transmisión va cifrada hasta la plataforma. La clave se queda en el llavero de este teléfono."
+          }
+        }
+      }
+    },
+    "Rule-of-thirds grid": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cuadrícula de tercios"
+          }
+        }
+      }
+    },
+    "Save key": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Guardar clave"
+          }
+        }
+      }
+    },
+    "Script": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Guion"
+          }
+        }
+      }
+    },
+    "Script & shot list editor": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Editor de guion y planos"
+          }
+        }
+      }
+    },
+    "Section": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sección"
+          }
+        }
+      }
+    },
+    "Send invite link": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enviar enlace de invitación"
+          }
+        }
+      }
+    },
+    "Serious: overlays pause. Critical: frame rate steps down (after the take ends, so a rolling take isn't cut) and the cover monitor pauses. Everything restores when the device cools to fair.": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Grave: se pausan las superposiciones. Crítico: baja la frecuencia de fotogramas (al terminar la toma, para no cortarla) y se pausa el monitor exterior. Todo se restaura cuando el dispositivo vuelve a una temperatura aceptable."
+          }
+        }
+      }
+    },
+    "Server": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Servidor"
+          }
+        }
+      }
+    },
+    "Session": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sesión"
+          }
+        }
+      }
+    },
+    "Session ID": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ID de sesión"
+          }
+        }
+      }
+    },
+    "Share sidecars (JSON + FCPXML)": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Compartir archivos auxiliares (JSON + FCPXML)"
+          }
+        }
+      }
+    },
+    "SHOT LIST": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "LISTA DE PLANOS"
+          }
+        }
+      }
+    },
+    "Shot list & sketches": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lista de planos y bocetos"
+          }
+        }
+      }
+    },
+    "Shot list and sketches": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lista de planos y bocetos"
+          }
+        }
+      }
+    },
+    "Shot or marker note": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Plano o nota de marcador"
+          }
+        }
+      }
+    },
+    "Show guest in Go Live stream": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mostrar al invitado en la transmisión"
+          }
+        }
+      }
+    },
+    "Show sample banner": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mostrar aviso de ejemplo"
+          }
+        }
+      }
+    },
+    "Side by side": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lado a lado"
+          }
+        }
+      }
+    },
+    "Simulate": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Simular"
+          }
+        }
+      }
+    },
+    "Simulate hinge": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Simular bisagra"
+          }
+        }
+      }
+    },
+    "Simulate MultiCam support": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Simular compatibilidad MultiCam"
+          }
+        }
+      }
+    },
+    "Simulator & testing": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Simulador y pruebas"
+          }
+        }
+      }
+    },
+    "Smaller text": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Texto más pequeño"
+          }
+        }
+      }
+    },
+    "Source": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fuente"
+          }
+        }
+      }
+    },
+    "SRT isn't supported. Use an rtmp:// or rtmps:// server.": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "SRT no es compatible. Usa un servidor rtmp:// o rtmps://."
+          }
+        }
+      }
+    },
+    "Started": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Inicio"
+          }
+        }
+      }
+    },
+    "Status": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Estado"
+          }
+        }
+      }
+    },
+    "Stop render": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Detener renderizado"
+          }
+        }
+      }
+    },
+    "Storage minutes keep 1 GB in reserve so iOS never has to purge mid-take.": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Los minutos de almacenamiento reservan 1 GB para que iOS nunca tenga que liberar espacio en mitad de una toma."
+          }
+        }
+      }
+    },
+    "Stream ended.": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Transmisión finalizada."
+          }
+        }
+      }
+    },
+    "Stream ended: the phone is too hot to keep streaming.": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Transmisión finalizada: el teléfono está demasiado caliente para seguir transmitiendo."
+          }
+        }
+      }
+    },
+    "Stream key": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Clave de transmisión"
+          }
+        }
+      }
+    },
+    "Streaming live": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Transmitiendo en directo"
+          }
+        }
+      }
+    },
+    "Streaming works in Solo mode. Switch off Dual-Cam to go live.": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "La transmisión funciona en modo Solo. Desactiva Dual-Cam para transmitir."
+          }
+        }
+      }
+    },
+    "Sync project with iCloud Drive": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sincronizar proyecto con iCloud Drive"
+          }
+        }
+      }
+    },
+    "Tabletop L-mode": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Modo mesa (en L)"
+          }
+        }
+      }
+    },
+    "Take deleted": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Toma eliminada"
+          }
+        }
+      }
+    },
+    "Takes": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tomas"
+          }
+        }
+      }
+    },
+    "Takes are saved on this phone and, if you turn it on, in your own iCloud. Nothing is sent to us.": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Las tomas se guardan en este teléfono y, si lo activas, en tu propio iCloud. No nos llega nada."
+          }
+        }
+      }
+    },
+    "Tap a marker to jump to it. Markers are also written into the .mov and both sidecars.": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Toca un marcador para saltar a él. Los marcadores también se guardan en el .mov y en ambos archivos auxiliares."
+          }
+        }
+      }
+    },
+    "Teleprompter": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Teleprompter"
+          }
+        }
+      }
+    },
+    "Teleprompter speed": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Velocidad del teleprompter"
+          }
+        }
+      }
+    },
+    "Temperature back to normal. Overlays restored.": {
+      "extractionState": "manual",
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Temperatura normal. Superposiciones restauradas."
+          }
+        }
+      }
+    },
+    "The camera isn't delivering frames for streaming. Try again after the preview starts.": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "La cámara no está enviando fotogramas para transmitir. Inténtalo de nuevo cuando empiece la vista previa."
+          }
+        }
+      }
+    },
+    "The camera isn't delivering frames yet. Try again after the preview starts.": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "La cámara aún no envía fotogramas. Inténtalo de nuevo cuando empiece la vista previa."
+          }
+        }
+      }
+    },
+    "The link holds a short-lived pass to this room. Send it only to your guest.": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "El enlace contiene un pase temporal a esta sala. Envíalo solo a tu invitado."
+          }
+        }
+      }
+    },
+    "The LiveKit server must start with wss://.": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "El servidor de LiveKit debe empezar por wss://."
+          }
+        }
+      }
+    },
+    "The server address is missing a host name.": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Falta el nombre del host en la dirección del servidor."
+          }
+        }
+      }
+    },
+    "The server must start with rtmp:// or rtmps://.": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "El servidor debe empezar por rtmp:// o rtmps://."
+          }
+        }
+      }
+    },
+    "The stream dropped and couldn't reconnect.": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "La transmisión se cortó y no se pudo reconectar."
+          }
+        }
+      }
+    },
+    "Thermal guardrails": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Protección térmica"
+          }
+        }
+      }
+    },
+    "Thermal state": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Estado térmico"
+          }
+        }
+      }
+    },
+    "This build doesn't include LiveKit, so guests are simulated. Build with project-guests.yml to enable them.": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Esta compilación no incluye LiveKit, así que los invitados son simulados. Compila con project-guests.yml para activarlos."
+          }
+        }
+      }
+    },
+    "This device is the remote": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Este dispositivo es el mando"
+          }
+        }
+      }
+    },
+    "This iPhone is the camera": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Este iPhone es la cámara"
+          }
+        }
+      }
+    },
+    "Token endpoint (https://…)": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Endpoint de tokens (https://…)"
+          }
+        }
+      }
+    },
+    "TOOLS": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "HERRAMIENTAS"
+          }
+        }
+      }
+    },
+    "Top left": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Arriba a la izquierda"
+          }
+        }
+      }
+    },
+    "Top right": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Arriba a la derecha"
+          }
+        }
+      }
+    },
+    "Turn on Camera and Microphone for DuoDirector in Settings to record.": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Activa Cámara y Micrófono para DuoDirector en Ajustes para grabar."
+          }
+        }
+      }
+    },
+    "Undo": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Deshacer"
+          }
+        }
+      }
+    },
+    "Unknown": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Desconocido"
+          }
+        }
+      }
+    },
+    "Unknown (Simulator)": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Desconocido (simulador)"
+          }
+        }
+      }
+    },
+    "Upload": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Subida"
+          }
+        }
+      }
+    },
+    "Use 1080p60 only on a strong connection. Heat lowers the bitrate automatically.": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Usa 1080p60 solo con una conexión potente. El calor reduce la tasa de bits automáticamente."
+          }
+        }
+      }
+    },
+    "Use every posture": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aprovecha cada postura"
+          }
+        }
+      }
+    },
+    "Use this device as a remote": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Usar este dispositivo como mando"
+          }
+        }
+      }
+    },
+    "Version": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Versión"
+          }
+        }
+      }
+    },
+    "Wear headphones: your guest plays through the phone and would echo into your mic.": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Usa auriculares: tu invitado suena por el teléfono y haría eco en tu micrófono."
+          }
+        }
+      }
+    },
+    "Welcome to DuoDirector": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Te damos la bienvenida a DuoDirector"
+          }
+        }
+      }
+    },
+    "Your guest left the room.": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tu invitado ha salido de la sala."
+          }
+        }
+      }
+    },
+    "Your name": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tu nombre"
+          }
+        }
+      }
+    },
+    "Your recording stays camera-only. The guest is added to the live stream.": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tu grabación solo incluye la cámara. El invitado se añade a la transmisión en directo."
+          }
+        }
+      }
+    },
+    "Your token endpoint signs short-lived passes with your LiveKit API secret, which never goes in the app. LiveKit Cloud can host one for you.": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tu endpoint firma pases temporales con tu secreto de API de LiveKit, que nunca va en la app. LiveKit Cloud puede alojarlo por ti."
+          }
+        }
+      }
+    },
+    "Your videos stay yours": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tus vídeos son tuyos"
+          }
+        }
+      }
+    },
+    "Zebra stripes": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cebras"
+          }
+        }
+      }
+    },
+    "Zebra threshold": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Umbral de cebras"
+          }
+        }
+      }
+    },
+    "Zebras": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cebras"
+          }
+        }
+      }
+    }
+  },
+  "version": "1.0"
+}

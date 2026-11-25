@@ -1,0 +1,145 @@
+# XcodeGen spec for DuoDirector.
+# Generate the .xcodeproj with:   brew install xcodegen && xcodegen generate
+# (A hand-written project.pbxproj is fragile; this spec is the source of truth.)
+
+name: DuoDirector
+options:
+  bundleIdPrefix: com.duodirector
+  deploymentTarget:
+    iOS: "27.1"          # CameraCaptureAccessory / ArrangementView / ReservedRegion are iOS 27.1+
+  createIntermediateGroups: true
+  developmentLanguage: en
+
+settings:
+  base:
+    # Phase 5: full strict-concurrency CHECKING in Swift 5 mode. Every data-race issue the
+    # Swift 6 compiler would reject shows up as a warning, without blocking the first build
+    # of code that has never been compiled. Once the warnings are cleared, flip to
+    # SWIFT_VERSION: "6.0" (and drop SWIFT_STRICT_CONCURRENCY, which 6.0 implies).
+    SWIFT_VERSION: "5.0"
+    SWIFT_STRICT_CONCURRENCY: complete
+    # Phase 7: String Catalogs (Resources/Localizable.xcstrings, InfoPlist.xcstrings).
+    LOCALIZATION_PREFERS_STRING_CATALOGS: YES
+    SWIFT_EMIT_LOC_STRINGS: YES
+    SWIFT_UPCOMING_FEATURE_INFER_SENDABLE_FROM_CAPTURES: YES
+    SWIFT_UPCOMING_FEATURE_GLOBAL_CONCURRENCY: YES
+    TARGETED_DEVICE_FAMILY: "1"          # iPhone (iPhone Duo)
+    ENABLE_PREVIEWS: YES
+    DEVELOPMENT_TEAM: ""                 # set your team ID
+    CURRENT_PROJECT_VERSION: "1"         # bump per upload; CI overrides with the run number
+
+packages:
+  # Phase 8: RTMP/RTMPS Go Live. Only HaishinKit + RTMPHaishinKit are linked; SRTHaishinKit
+  # is deliberately NOT (libsrt AES would change the export-compliance answer).
+  # VERIFY on first build: Xcode 26+ is required by HaishinKit 2.2.
+  HaishinKit:
+    url: https://github.com/HaishinKit/HaishinKit.swift
+    from: "2.2.0"
+
+targets:
+  DuoDirector:
+    type: application
+    platform: iOS
+    sources:
+      - path: DuoDirector
+    dependencies:
+      - package: HaishinKit
+        product: HaishinKit
+      - package: HaishinKit
+        product: RTMPHaishinKit
+    info:
+      path: DuoDirector/Resources/Info.plist
+      properties:
+        CFBundleDisplayName: DuoDirector
+        # Phase 7: declare the shipped languages (App Store lists them on the product page).
+        CFBundleDevelopmentRegion: en
+        # Phase 7: only OS-provided encryption (HTTPS/iCloud, MultipeerConnectivity), which
+        # is exempt. Skips the export-compliance question on every upload.
+        ITSAppUsesNonExemptEncryption: false
+        CFBundleShortVersionString: "1.0"
+        CFBundleVersion: "$(CURRENT_PROJECT_VERSION)"   # CI sets it to the run number
+        CFBundleLocalizations:
+          - en
+          - es
+        UILaunchScreen: {}
+        UIApplicationSupportsMultipleScenes: true
+        UIRequiresFullScreen: false
+        UISupportedInterfaceOrientations:
+          - UIInterfaceOrientationPortrait
+          - UIInterfaceOrientationLandscapeLeft
+          - UIInterfaceOrientationLandscapeRight
+        NSCameraUsageDescription: DuoDirector uses the rear and inner cameras to record video.
+        NSMicrophoneUsageDescription: DuoDirector records audio with your video and shows live audio levels.
+        NSPhotoLibraryAddUsageDescription: DuoDirector saves finished takes to your photo library.
+        # Phase 4: Documents/Takes (both .movs + JSON/FCPXML sidecars) shows up in the Files
+        # app under "DuoDirector", so creators can AirDrop a take folder to their Mac.
+        UIFileSharingEnabled: true
+        LSSupportsOpeningDocumentsInPlace: true
+        # Phase 6: Remote Producer (MultipeerConnectivity, local network only).
+        NSLocalNetworkUsageDescription: DuoDirector connects to a nearby iPhone or iPad you choose so it can act as a producer remote.
+        NSBonjourServices:
+          - _duodirector._tcp
+          - _duodirector._udp
+        # Phase 6: show the iCloud container as "DuoDirector" in iCloud Drive.
+        NSUbiquitousContainers:
+          iCloud.com.duodirector.app:
+            NSUbiquitousContainerIsDocumentScopePublic: true
+            NSUbiquitousContainerName: DuoDirector
+            NSUbiquitousContainerSupportedFolderLevels: Any
+        # Phase 4 App Store notes: PrivacyInfo.xcprivacy (DiskSpace E174.1, UserDefaults CA92.1)
+        # lives in DuoDirector/Resources and is picked up as a resource by the sources glob.
+        # Add a 5.4" cover-display screenshot set in App Store Connect alongside the inner
+        # display sets; Launch & Diagnostics › Demo Mode stages all three.
+        # Note: CameraCaptureAccessory needs NO scene-manifest entry. Apple's docs say accessory
+        # scenes have no project-level configuration and a manifest entry has no effect.
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.duodirector.app
+        GENERATE_INFOPLIST_FILE: NO
+        CODE_SIGN_ENTITLEMENTS: DuoDirector/Resources/DuoDirector.entitlements   # Phase 6: iCloud Documents
+
+  # Phase 5: unit tests (Swift Testing). Run with ⌘U or:
+  #   xcodebuild test -scheme DuoDirector -destination 'platform=iOS Simulator,name=iPhone Duo'
+  # They cover pure logic only (layout maths, guardrail policies, metering, sidecars,
+  # marker payloads, persistence mapping, take filters), so they run in the Simulator.
+  DuoDirectorTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+      - path: DuoDirectorTests
+    dependencies:
+      - target: DuoDirector
+    settings:
+      base:
+        GENERATE_INFOPLIST_FILE: YES
+        PRODUCT_BUNDLE_IDENTIFIER: com.duodirector.app.tests
+
+  # Phase 6: App Store screenshots + launch smoke test (XCUITest, Demo Mode).
+  DuoDirectorUITests:
+    type: bundle.ui-testing
+    platform: iOS
+    sources:
+      - path: DuoDirectorUITests
+    dependencies:
+      - target: DuoDirector
+    settings:
+      base:
+        GENERATE_INFOPLIST_FILE: YES
+        PRODUCT_BUNDLE_IDENTIFIER: com.duodirector.app.uitests
+        TEST_TARGET_NAME: DuoDirector
+
+schemes:
+  DuoDirector:
+    build:
+      targets:
+        DuoDirector: all
+        DuoDirectorTests: [test]
+        DuoDirectorUITests: [test]
+    run:
+      config: Debug
+    test:
+      config: Debug
+      gatherCoverageData: true
+      targets:
+        - DuoDirectorTests
+        - DuoDirectorUITests

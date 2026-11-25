@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+  DuoDirector privacy manifest (Phase 4, App Store readiness).
+  • No tracking, no tracking domains, no collected data types: everything stays on device
+    (camera/mic/Photos access is covered by the Info.plist usage strings).
+  • Required-reason APIs actually used by the code:
+      DiskSpace   E174.1  SystemMonitor reads volumeAvailableCapacityForImportantUsage to
+                          show recording minutes left and avoid running out mid-take.
+      UserDefaults CA92.1 StudioSessionState reads the "DuoDirectorMock" launch argument
+                          (app-only defaults).
+  Re-check this list whenever a new required-reason API is introduced.
+-->
+<plist version="1.0">
+<dict>
+	<key>NSPrivacyTracking</key>
+	<false/>
+	<key>NSPrivacyTrackingDomains</key>
+	<array/>
+	<key>NSPrivacyCollectedDataTypes</key>
+	<array/>
+	<key>NSPrivacyAccessedAPITypes</key>
+	<array>
+		<dict>
+			<key>NSPrivacyAccessedAPIType</key>
+			<string>NSPrivacyAccessedAPICategoryDiskSpace</string>
+			<key>NSPrivacyAccessedAPITypeReasons</key>
+			<array><string>E174.1</string></array>
+		</dict>
+		<dict>
+			<key>NSPrivacyAccessedAPIType</key>
+			<string>NSPrivacyAccessedAPICategoryUserDefaults</string>
+			<key>NSPrivacyAccessedAPITypeReasons</key>
+			<array><string>CA92.1</string></array>
+		</dict>
+	</array>
+</dict>
+</plist>

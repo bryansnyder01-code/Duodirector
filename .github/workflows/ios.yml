@@ -1,0 +1,118 @@
+# =====================================================================================
+#  DuoDirector CI (Phase 10): build + unit tests on every push, archive + upload on demand
+#
+#  Push/PR:   xcodegen → build for the Simulator → run DuoDirectorTests.
+#  Manual:    Actions › iOS › Run workflow › upload = true archives a Release build from
+#             project.yml (1.0 ships WITHOUT LiveKit) and uploads it to App Store Connect.
+#
+#  Secrets for the upload job (Settings › Secrets and variables › Actions):
+#    ASC_KEY_ID, ASC_ISSUER_ID, ASC_KEY_P8 (contents of the AuthKey_XXXX.p8 file),
+#    DEVELOPMENT_TEAM (your 10-character team ID).
+#  The API key needs the App Manager role so Xcode can manage signing automatically.
+#
+#  VERIFY on first run: the runner label (macos-26) and that its Xcode has the iOS 27.1
+#  SDK. If the "iPhone Duo" simulator isn't installed, tests fall back to any iPhone.
+# =====================================================================================
+name: iOS
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      upload:
+        description: "Archive and upload to App Store Connect"
+        type: boolean
+        default: false
+
+concurrency:
+  group: ios-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-and-test:
+    runs-on: macos-26
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - name: Select newest Xcode
+        run: sudo xcode-select -s "$(ls -d /Applications/Xcode*.app | sort -V | tail -1)" && xcodebuild -version
+      - name: Generate project
+        run: brew install xcodegen && xcodegen generate
+      - name: Resolve packages
+        run: xcodebuild -resolvePackageDependencies -project DuoDirector.xcodeproj -scheme DuoDirector
+      - name: Pick a simulator
+        id: sim
+        run: |
+          name=$(xcrun simctl list devices available -j | python3 -c '
+          import json,sys
+          d=[x["name"] for r in json.load(sys.stdin)["devices"].values() for x in r]
+          duo=[n for n in d if "Duo" in n]; phones=[n for n in d if n.startswith("iPhone")]
+          print((duo or phones)[0])')
+          echo "name=$name" >> "$GITHUB_OUTPUT"
+          echo "Testing on: $name"
+      - name: Build and run unit tests
+        run: |
+          set -o pipefail
+          xcodebuild test -project DuoDirector.xcodeproj -scheme DuoDirector \
+            -destination "platform=iOS Simulator,name=${{ steps.sim.outputs.name }}" \
+            -only-testing:DuoDirectorTests \
+            CODE_SIGNING_ALLOWED=NO -resultBundlePath TestResults.xcresult | tee build.log
+      - name: Keep the log and results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-and-test
+          path: |
+            build.log
+            TestResults.xcresult
+
+  archive-and-upload:
+    if: github.event_name == 'workflow_dispatch' && inputs.upload
+    needs: build-and-test
+    runs-on: macos-26
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - name: Select newest Xcode
+        run: sudo xcode-select -s "$(ls -d /Applications/Xcode*.app | sort -V | tail -1)"
+      - name: Generate project (1.0 = no LiveKit)
+        run: brew install xcodegen && xcodegen generate --spec project.yml
+      - name: Write the App Store Connect key
+        env:
+          ASC_KEY_P8: ${{ secrets.ASC_KEY_P8 }}
+        run: |
+          mkdir -p ~/.appstoreconnect
+          printf '%s' "$ASC_KEY_P8" > ~/.appstoreconnect/AuthKey.p8
+      - name: Archive
+        run: |
+          set -o pipefail
+          xcodebuild archive -project DuoDirector.xcodeproj -scheme DuoDirector -configuration Release \
+            -destination "generic/platform=iOS" -archivePath build/DuoDirector.xcarchive \
+            DEVELOPMENT_TEAM="${{ secrets.DEVELOPMENT_TEAM }}" CURRENT_PROJECT_VERSION="${{ github.run_number }}" \
+            -allowProvisioningUpdates \
+            -authenticationKeyPath ~/.appstoreconnect/AuthKey.p8 \
+            -authenticationKeyID "${{ secrets.ASC_KEY_ID }}" \
+            -authenticationKeyIssuerID "${{ secrets.ASC_ISSUER_ID }}"
+      - name: Export and upload
+        run: |
+          cat > ExportOptions.plist <<PLIST
+          <?xml version="1.0" encoding="UTF-8"?>
+          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+          <plist version="1.0"><dict>
+            <key>method</key><string>app-store-connect</string>
+            <key>destination</key><string>upload</string>
+            <key>teamID</key><string>${{ secrets.DEVELOPMENT_TEAM }}</string>
+            <key>signingStyle</key><string>automatic</string>
+          </dict></plist>
+          PLIST
+          xcodebuild -exportArchive -archivePath build/DuoDirector.xcarchive \
+            -exportOptionsPlist ExportOptions.plist -exportPath build/export \
+            -allowProvisioningUpdates \
+            -authenticationKeyPath ~/.appstoreconnect/AuthKey.p8 \
+            -authenticationKeyID "${{ secrets.ASC_KEY_ID }}" \
+            -authenticationKeyIssuerID "${{ secrets.ASC_ISSUER_ID }}"
+      - name: Remove the key
+        if: always()
+        run: rm -f ~/.appstoreconnect/AuthKey.p8

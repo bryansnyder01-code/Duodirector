@@ -1,0 +1,35 @@
+# =====================================================================================
+#  DuoDirector + Remote guests (Phase 9): build variant that links LiveKit
+#
+#    xcodegen generate --spec project-guests.yml
+#
+#  Why a separate spec: LiveKit's WebRTC brings its own encryption (DTLS-SRTP via
+#  BoringSSL). Apps that only use the OS's encryption can answer
+#  ITSAppUsesNonExemptEncryption = NO; this variant can't. Standard protocols in a
+#  mass-market app usually qualify for the exemption, but App Store Connect will ask
+#  the encryption questions (see docs/APP_STORE_SUBMISSION.md › Export compliance).
+#  `project.yml` alone builds the app without LiveKit; guests then use the mock room.
+#
+#  VERIFY on first generate: XcodeGen merges included specs. If it appends rather than
+#  replaces `dependencies`, drop the HaishinKit entries below to avoid duplicates.
+# =====================================================================================
+include:
+  - project.yml
+
+packages:
+  LiveKit:
+    url: https://github.com/livekit/client-sdk-swift
+    from: "2.17.0"          # swift-tools 6.2, needs Xcode 26+
+
+targets:
+  DuoDirector:
+    dependencies:
+      - package: HaishinKit
+        product: HaishinKit
+      - package: HaishinKit
+        product: RTMPHaishinKit
+      - package: LiveKit
+        product: LiveKit
+    info:
+      properties:
+        ITSAppUsesNonExemptEncryption: true

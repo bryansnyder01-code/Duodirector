@@ -177,11 +177,16 @@ struct CaptureRootView: View {
         }
 
         ToolbarItem(placement: .topBarTrailing) {
+            // iOS 27 toolbars keep a bar item's accessibility label after an
+            // .accessibilityLabel change (CI saw "Record" while rolling). A Label title
+            // plus a state-keyed id makes the system rebuild the item when the state flips.
             Button { engine.toggleRecording() } label: {
-                Image(systemName: state.isRecording ? "stop.circle.fill" : "record.circle")
+                Label(state.isRecording ? "Stop" : "Record",
+                      systemImage: state.isRecording ? "stop.circle.fill" : "record.circle")
+                    .labelStyle(.iconOnly)
                     .foregroundStyle(.red)
             }
-            .accessibilityLabel(state.isRecording ? "Stop" : "Record")
+            .id(state.isRecording)
             .accessibilityIdentifier("recordToggle")      // UI tests: the one toolbar record button
         }
         .duoVisibilityPriority(.duoCritical)

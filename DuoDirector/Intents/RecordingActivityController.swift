@@ -22,7 +22,9 @@ final class RecordingActivityController {
         guard let activity, var state = content else { return }
         state.markerCount = markerCount
         content = state
-        Task { await activity.update(ActivityContent(state: state, staleDate: nil)) }
+        // Activity isn't Sendable; ActivityKit documents update/end as safe from any task.
+        nonisolated(unsafe) let live = activity
+        Task { await live.update(ActivityContent(state: state, staleDate: nil)) }
     }
 
     func end() {
@@ -30,6 +32,7 @@ final class RecordingActivityController {
         let final = content.map { ActivityContent(state: $0, staleDate: nil) }
         self.activity = nil
         content = nil
-        Task { await activity.end(final, dismissalPolicy: .immediate) }
+        nonisolated(unsafe) let live = activity
+        Task { await live.end(final, dismissalPolicy: .immediate) }
     }
 }

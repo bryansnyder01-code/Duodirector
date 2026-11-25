@@ -88,6 +88,18 @@ Transmite a YouTube, Twitch o cualquier servidor RTMPS. Tu clave de transmisión
 TOMAS ORGANIZADAS
 Puntúa tomas, añade marcadores mientras grabas y encuéntralos después como capítulos del archivo. Exporta para Final Cut Pro con un proyecto a juego.
 
+SUBTÍTULOS HECHOS EN TU IPHONE
+Convierte cualquier toma en subtítulos sin subir nada. Guárdalos como archivo de subtítulos o incrústalos en el vídeo.
+
+LISTO PARA SHORTS, REELS Y TIKTOK
+Con un toque, reencuadra una toma en vertical 9:16 y sigue tu cara mientras te mueves.
+
+MANOS LIBRES
+Pulsa Control de Cámara o un botón de volumen para grabar, pon Grabar en el botón de Acción o pídeselo a Siri. Un temporizador en la pantalla bloqueada muestra cuánto llevas grabando.
+
+SONIDO DE ESTUDIO
+Elige un micrófono USB-C, con cable o Bluetooth, activa Aislamiento de voz y revisa niveles y auriculares antes de grabar.
+
 PRODUCTOR REMOTO
 Controla la cámara desde otro iPhone o iPad cercano: grabar y parar, marcadores, velocidad del teleprompter y vista previa en directo.
 

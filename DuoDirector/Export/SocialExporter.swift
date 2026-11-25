@@ -164,7 +164,9 @@ enum SocialExporter {
         let people = VNDetectHumanRectanglesRequest()
         let handler = VNImageRequestHandler(cgImage: image)
         try? handler.perform([faces, people])
-        let boxes = (faces.results?.isEmpty == false ? faces.results : people.results)?.map(\.boundingBox) ?? []
+        let faceBoxes: [CGRect] = (faces.results ?? []).map { $0.boundingBox }
+        let peopleBoxes: [CGRect] = (people.results ?? []).map { $0.boundingBox }
+        let boxes = faceBoxes.isEmpty ? peopleBoxes : faceBoxes
         guard let biggest = boxes.max(by: { $0.width * $0.height < $1.width * $1.height }) else { return nil }
         return Double(biggest.midX)      // Vision is normalised with a bottom-left origin; x is unchanged.
     }

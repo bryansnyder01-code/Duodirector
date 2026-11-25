@@ -190,6 +190,10 @@ struct TakeRecord: Identifiable, Codable, Hashable, Sendable {
     var shotTitle: String?
     /// Phase 5: on-device split/PiP render (CompositeRenderer), nil until rendered.
     var compositeFileURL: URL?
+    /// Phase 11: on-device captions (.srt next to the camera files), nil until made.
+    var captionsURL: URL?
+    /// Phase 11: last social export (vertical and/or burned-in captions).
+    var socialExportURL: URL?
 
     /// True if at least one camera file for this take exists on disk.
     var hasMediaOnDisk: Bool {
@@ -393,6 +397,14 @@ final class StudioSessionState {
     var compositeRenderProgress: [TakeRecord.ID: Double] = [:]
     /// Phase 5: render split/PiP composites by themselves when the phone is cool + charging.
     var autoRenderComposites = false
+    /// Phase 11: on-device caption jobs in flight (take ids) and social exports (0…1).
+    var captioningTakeIDs: Set<TakeRecord.ID> = []
+    var socialExportProgress: [TakeRecord.ID: Double] = [:]
+    /// Phase 11: transcribe each finished take on the phone (off by default: it's work
+    /// the phone does right after a take, when it may be warm).
+    var autoCaptionTakes = false
+    /// Phase 11: Camera Control / volume buttons start and stop takes.
+    var hardwareButtonsRecord = true
     /// Phase 5: where markers are written (diagnostics), e.g. "In file + sidecar".
     var markerTrackStatus = "Unknown"
     /// Phase 5: when the project was last saved to disk (nil = never / not persisted).

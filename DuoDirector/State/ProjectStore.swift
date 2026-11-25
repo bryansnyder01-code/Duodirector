@@ -72,6 +72,8 @@ struct ProjectDocument: Codable, Equatable, Sendable {
         var showHistogram: Bool?
         var audioGain: Float?
         var autoRenderComposites: Bool?
+        var autoCaptionTakes: Bool?
+        var hardwareButtonsRecord: Bool?
     }
 }
 
@@ -234,7 +236,8 @@ final class ProjectStore {
                 show9x16Guide: state.show9x16Guide, showThirdsGrid: state.showThirdsGrid,
                 gridOpacity: state.gridOpacity, zebraThreshold: state.zebraThreshold,
                 showHistogram: state.showHistogram, audioGain: state.audioGain,
-                autoRenderComposites: state.autoRenderComposites))
+                autoRenderComposites: state.autoRenderComposites,
+                autoCaptionTakes: state.autoCaptionTakes, hardwareButtonsRecord: state.hardwareButtonsRecord))
     }
 
     static func apply(_ document: ProjectDocument, to state: StudioSessionState, takesDirectory: URL) {
@@ -282,6 +285,8 @@ final class ProjectStore {
         if let v = p.showHistogram { state.showHistogram = v }
         if let v = p.audioGain { state.audioGain = v }
         if let v = p.autoRenderComposites { state.autoRenderComposites = v }
+        if let v = p.autoCaptionTakes { state.autoCaptionTakes = v }
+        if let v = p.hardwareButtonsRecord { state.hardwareButtonsRecord = v }
     }
 
     /// Keeps only the file NAME and resolves it in today's Takes folder.
@@ -293,6 +298,8 @@ final class ProjectStore {
         take.sidecarJSONURL = fix(take.sidecarJSONURL)
         take.sidecarFCPXMLURL = fix(take.sidecarFCPXMLURL)
         take.compositeFileURL = fix(take.compositeFileURL)
+        take.captionsURL = fix(take.captionsURL)
+        take.socialExportURL = fix(take.socialExportURL)
         return take
     }
 }

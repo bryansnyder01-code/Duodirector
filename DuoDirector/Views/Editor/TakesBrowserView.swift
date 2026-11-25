@@ -148,6 +148,7 @@ struct TakeDetailView: View {
     @State private var loadError: String?
     @State private var recoveredCount: Int?
     @State private var confirmDelete = false
+    @State private var showSocialExport = false
     @Environment(\.dismiss) private var dismiss
 
     private var take: TakeRecord? { state.takes.first { $0.id == takeID } }
@@ -185,6 +186,9 @@ struct TakeDetailView: View {
             .navigationTitle("Take \(take.takeNumber)")
             .task(id: "\(take.id)-\(layout.rawValue)-\(take.compositeFileURL?.path ?? "")") { await loadPlayer(take) }
             .onDisappear { player.pause() }
+            .sheet(isPresented: $showSocialExport) {
+                if let engine { SocialExportSheet(take: take, engine: engine) }
+            }
             .confirmationDialog("Delete take \(take.takeNumber)?", isPresented: $confirmDelete, titleVisibility: .visible) {
                 Button("Delete files and markers", role: .destructive) {
                     engine?.deleteTake(take.id)
@@ -255,7 +259,8 @@ struct TakeDetailView: View {
     @ViewBuilder
     private func actionsSection(_ take: TakeRecord) -> some View {
         Section("Export") {
-            let files = [take.rearFileURL, take.innerFileURL, take.compositeFileURL, take.sidecarJSONURL, take.sidecarFCPXMLURL]
+            let files = [take.rearFileURL, take.innerFileURL, take.compositeFileURL, take.socialExportURL, take.captionsURL,
+                         take.sidecarJSONURL, take.sidecarFCPXMLURL]
                 .compactMap { $0 }.filter { FileManager.default.fileExists(atPath: $0.path) }
             if !files.isEmpty {
                 ShareLink(items: files) { Label("Share \(files.count) file(s)", systemImage: "square.and.arrow.up") }
@@ -274,6 +279,24 @@ struct TakeDetailView: View {
                     .disabled(!verdict.isAllowed || engine.isRenderingComposite)
                     if case .blocked(let reason) = verdict {
                         Text(reason).font(.caption).foregroundStyle(.secondary)
+                    }
+                }
+            }
+            if let engine, take.hasMediaOnDisk {
+                // Phase 11: on-device captions and the social (vertical / captioned) export.
+                if state.captioningTakeIDs.contains(take.id) {
+                    HStack { ProgressView(); Text("Making captions on this iPhone…").foregroundStyle(.secondary) }
+                } else {
+                    Button(take.captionsURL == nil ? "Make captions" : "Make captions again", systemImage: "captions.bubble") {
+                        engine.generateCaptions(takeID: take.id)
+                    }
+                }
+                if let progress = state.socialExportProgress[take.id] {
+                    ProgressView(value: progress) { Text("Exporting for social…") }
+                    Button("Stop export", systemImage: "stop.circle", role: .destructive) { engine.cancelSocialExport() }
+                } else {
+                    Button("Export for Shorts, Reels & TikTok", systemImage: "rectangle.portrait.on.rectangle.portrait") {
+                        showSocialExport = true
                     }
                 }
             }
@@ -334,5 +357,43 @@ struct TakeDetailView: View {
         let settings = TakeSidecarExporter.Settings(resolution: state.resolution, frameRate: state.frameRate.rawValue,
                                                     codec: state.preferredCodec, dolbyVision: state.isDolbyVisionActive)
         _ = try? TakeSidecarExporter.write(take: take, markers: state.markers(forTake: take.takeNumber), settings: settings)
+    }
+}
+
+/// Phase 11: options for the one-tap social export.
+struct SocialExportSheet: View {
+    let take: TakeRecord
+    let engine: CameraEngine
+    @State private var options = SocialExporter.Options()
+    @Environment(\.dismiss) private var dismiss
+
+    var body: some View {
+        NavigationStack {
+            Form {
+                Section {
+                    Toggle("Vertical 9:16", isOn: $options.vertical)
+                    Toggle("Burn in captions", isOn: $options.burnCaptions)
+                        .disabled(take.captionsURL == nil)
+                } footer: {
+                    Text(take.captionsURL == nil
+                         ? "Make captions first to burn them in."
+                         : "Vertical follows the speaker's face. Captions use this take's .srt file.")
+                }
+                Section {
+                    let verdict = engine.socialExportVerdict
+                    Button("Export and save to Photos", systemImage: "square.and.arrow.down") {
+                        engine.exportForSocial(takeID: take.id, options: options)
+                        dismiss()
+                    }
+                    .disabled(!verdict.isAllowed || !(options.vertical || options.burnCaptions))
+                    if case .blocked(let reason) = verdict { Text(reason).font(.caption).foregroundStyle(.secondary) }
+                }
+            }
+            .navigationTitle("Export for social")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar { ToolbarItem(placement: .cancellationAction) { Button("Cancel") { dismiss() } } }
+            .onAppear { options.burnCaptions = take.captionsURL != nil }
+        }
+        .presentationDetents([.medium])
     }
 }

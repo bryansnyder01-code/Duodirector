@@ -31,6 +31,18 @@ Stream to YouTube, Twitch or any RTMPS server. Your stream key stays in your pho
 ORGANIZED TAKES
 Rate takes, drop markers while you record and find them later as chapters in the file. Export for Final Cut Pro with a matching project file.
 
+CAPTIONS, MADE ON YOUR PHONE
+Turn any take into captions without uploading a thing. Save them as a subtitle file or burn them into the video.
+
+READY FOR SHORTS, REELS AND TIKTOK
+One tap reframes a take to vertical 9:16 and follows your face as you move.
+
+HANDS-FREE
+Press Camera Control or a volume button to roll, put Record on the Action button, or just ask Siri. A Lock Screen timer shows how long you've been rolling.
+
+STUDIO SOUND
+Pick a USB-C, wired or Bluetooth mic, switch on Voice Isolation, and check your levels and headphones before you roll.
+
 REMOTE PRODUCER
 Run the camera from a second iPhone or iPad nearby: start and stop, markers, teleprompter speed and a live preview.
 

@@ -328,8 +328,24 @@ It also runs a record → stop smoke test. The script sets a clean 9:41 status b
 - Replace the placeholders: privacy policy contact and date, `AboutView.privacyPolicyURL`, support URL.
 - Check the HaishinKit license text against the resolved version's LICENSE file.
 
+## Phase 11: 1.0 features (hands-free, captions, vertical, audio)
+- **Hardware buttons and Siri.** Camera Control and the volume buttons start and stop a take (`onCameraCaptureEvent` in CaptureRootView; Settings › Buttons & Siri turns it off). App Intents in `Intents/DuoAppIntents.swift`: Start or Stop a Take, Start a Take, Stop the Take, Add a Marker, with Siri phrases. Put one on the Action button under Settings › Action Button › Shortcut. They open the app, because the camera only runs in the foreground.
+- **Live Activity.** `DuoDirectorWidgets` (WidgetKit app extension) shows the REC dot, take number, running timer, marker count and LIVE on the Lock Screen and in the Dynamic Island. `Shared/RecordingActivityAttributes.swift` is compiled into both targets. Off in UI tests.
+- **On-device captions** (`Captions/`). SFSpeechRecognizer with `requiresOnDeviceRecognition`. There's no server fallback, so the privacy promise holds. The words are grouped into cues of 2 × 42 characters and at most 6 s, and saved as `<take>.srt` next to the camera files. Use Takes › Make captions, or turn on Settings › Captions for every take.
+- **Vertical export** (`Export/`). Takes › Export for Shorts, Reels & TikTok. Vision finds the main face about once a second, `ReframePlanner` smooths and clamps the crop, and the crop pans with transform ramps. Captions can be burned in from the .srt. The output, `<take>-social.mov` (HEVC, 1080×1920), is saved to Photos. `SocialExportPolicy` blocks it mid-take, while hot, or under 20% battery when not charging.
+- **Audio** (`Camera/AudioRouteController.swift`, Settings › Audio). The mic picker sets the AVAudioSession preferred input, which the capture mic follows. Bluetooth mics get a call-quality warning. Mic mode shows Standard, Voice Isolation or Wide Spectrum and opens the system picker (apps can't set it themselves). There's a headphone check too.
+- New usage string: `NSSpeechRecognitionUsageDescription`. `NSSupportsLiveActivities` is set. The privacy policy now covers speech recognition.
+
+### Phase 11 things to verify on hardware
+- Camera Control press and release start and stop exactly one take. A volume press doesn't also change the volume.
+- Caption timing on a long take (10 min or more), and how well Spanish transcribes on device.
+- The burned-in captions sit near the bottom of the frame (AVFoundation's Core Animation origin is bottom-left).
+- Vertical export follows a person walking across the frame without jitter.
+
 ## Next phase candidates
-- Swift 6 language mode once CI shows zero strict-concurrency warnings.
+- Move Remote Producer from MultipeerConnectivity to the Network framework (deprecated in iOS 27).
+- Camera Control sliders for zoom and exposure (`AVCaptureSystemZoomSlider`, `AVCaptureSystemExposureBiasSlider`).
+- A Stop button in the Live Activity (LiveActivityIntent).
 - Guests 1.1: release the `project-guests.yml` build.
 - Record the guest as their own ISO track per take (a third .mov next to host/guest, plus sidecar entries).
 - Echo cancelling without headphones (a voice-processing audio mode while a guest is connected).

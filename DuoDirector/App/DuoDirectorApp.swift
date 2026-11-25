@@ -18,6 +18,8 @@ import SwiftUI
 /// arguments (`LaunchOptions`) can skip persistence and stage Demo Mode screenshots.
 ///
 /// Phase 8: `LiveStreamController` (Go Live over RTMP/RTMPS) is handed to the engine too.
+///
+/// Phase 11: the recording Live Activity and the App Intents bridge.
 @main
 struct DuoDirectorApp: App {
     @State private var state: StudioSessionState
@@ -41,6 +43,9 @@ struct DuoDirectorApp: App {
         engine.remoteLink = RemoteProducerLink(state: state, engine: engine)
         engine.liveStream = LiveStreamController(state: state, engine: engine)
         engine.guests = GuestSessionController(state: state, engine: engine)
+        // Phase 11: Live Activity record timer, and Siri / Shortcuts / Action button.
+        engine.recordingActivity = options.isUITest ? nil : RecordingActivityController()
+        IntentBridge.engine = engine
         _state = State(initialValue: state)
         _store = State(initialValue: store)
         _cloud = State(initialValue: cloud)

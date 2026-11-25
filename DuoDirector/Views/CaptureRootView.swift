@@ -1,3 +1,4 @@
+import AVKit
 import SwiftUI
 
 /// The main capture view. Owns the session lifecycle, the toolbar, and the registration of
@@ -15,6 +16,8 @@ struct CaptureRootView: View {
     @State private var showRemoteSetup = false
     @State private var showGoLive = false
     @State private var showGuests = false
+    /// Phase 11: mic picker / mic mode / headphone check for the Audio settings.
+    @State private var audioRoute = AudioRouteController()
     /// Phase 10: first-launch onboarding asks for camera/mic in context before starting.
     @State private var showOnboarding = !Onboarding.isCompleted && !LaunchOptions.current.isUITest
 
@@ -41,6 +44,11 @@ struct CaptureRootView: View {
             onAvailabilityChange: { engine.outerAccessoryAvailabilityChanged($0) }
         ) {
             OuterMonitorAccessoryView(state: state, engine: engine)
+        }
+        // Phase 11: Camera Control and the volume buttons start/stop a take (press and
+        // release). Only fires while the capture session runs, so the Simulator ignores it.
+        .onCameraCaptureEvent(isEnabled: state.hardwareButtonsRecord && !showOnboarding) { event in
+            if event.phase == .ended { engine.toggleRecording() }
         }
         // iOS 27.1 hinge input → state.hingePosture (behaviour/badges, not layout).
         .duoOnHingeChange { angle in state.updateHinge(angleDegrees: angle) }
@@ -75,7 +83,20 @@ struct CaptureRootView: View {
                     Section("Exposure, white balance & focus") { ManualCameraControls(state: state) }
                     Section("Overlays") { OverlayToggles(state: state) }
                     Section("Teleprompter") { PrompterSettingsControls(state: state) }
-                    Section("Audio") { AudioGainControl(state: state) }
+                    Section("Audio") {
+                        AudioGainControl(state: state)
+                        AudioInputControls(route: audioRoute)
+                    }
+                    Section {
+                        Toggle("Camera Control & volume buttons record", isOn: $state.hardwareButtonsRecord)
+                    } header: { Text("Buttons & Siri") } footer: {
+                        Text("Press to start, press again to stop. For the Action button: Settings › Action Button › Shortcut › DuoDirector › Start or Stop a Take. Or say “Start a take in DuoDirector”.")
+                    }
+                    Section {
+                        Toggle("Make captions after each take", isOn: $state.autoCaptionTakes)
+                    } header: { Text("Captions") } footer: {
+                        Text("Transcribed on this iPhone. Audio never leaves it. You can also make captions for any take in Takes.")
+                    }
                     Section {
                         CaptureModeSettings(state: state, engine: engine)
                     } header: { Text("Cameras") }

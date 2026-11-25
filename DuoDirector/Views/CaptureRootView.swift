@@ -47,8 +47,15 @@ struct CaptureRootView: View {
         }
         // Phase 11: Camera Control and the volume buttons start/stop a take (press and
         // release). Only fires while the capture session runs, so the Simulator ignores it.
-        .onCameraCaptureEvent(isEnabled: state.hardwareButtonsRecord && !showOnboarding) { event in
-            if event.phase == .ended { engine.toggleRecording() }
+        // Attached to a background view: on the whole hierarchy, the event interaction's
+        // host view sat over the toolbar and swallowed taps (CI: Record wasn't hittable).
+        .background {
+            Color.clear
+                .onCameraCaptureEvent(isEnabled: state.hardwareButtonsRecord && !showOnboarding) { event in
+                    if event.phase == .ended { engine.toggleRecording() }
+                }
+                .allowsHitTesting(false)
+                .accessibilityHidden(true)
         }
         // iOS 27.1 hinge input → state.hingePosture (behaviour/badges, not layout).
         .duoOnHingeChange { angle in state.updateHinge(angleDegrees: angle) }

@@ -70,7 +70,7 @@ final class SystemMonitor {
     }
 
     /// Recording minutes left at the given total bitrate (both cameras in dual mode).
-    static func minutesLeft(bytes: Int64?, totalBitsPerSecond: Int) -> Int? {
+    nonisolated static func minutesLeft(bytes: Int64?, totalBitsPerSecond: Int) -> Int? {
         guard let bytes, totalBitsPerSecond > 0 else { return nil }
         // Keep 1 GB in reserve so iOS never has to purge mid-take.
         let usable = max(0, bytes - 1_000_000_000)

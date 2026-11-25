@@ -139,6 +139,9 @@ jobs:
           mkdir -p Screenshots
           xcrun xcresulttool export attachments --path Screenshots.xcresult --output-path Screenshots || true
           ls -la Screenshots
+          # Failure attachments (element debug descriptions) go to the log, since the
+          # artifact isn't always easy to open.
+          for f in Screenshots/*.txt; do [ -f "$f" ] && { echo "::group::$f"; cat "$f"; echo "::endgroup::"; }; done
       - uses: actions/upload-artifact@v4
         if: always()
         with:

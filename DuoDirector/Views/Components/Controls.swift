@@ -130,6 +130,8 @@ struct FormatBadge: View {
     var body: some View {
         Text("\(state.resolution.label) · \(state.frameRate.label) · \(state.isDolbyVisionActive ? "DV" : "SDR")")
             .font(.caption.monospaced().bold())
+            .lineLimit(1)
+            .fixedSize()          // iOS 27 toolbars otherwise truncate it to "4K…"
             .padding(.horizontal, 8).padding(.vertical, 5)
             .background(.white.opacity(0.15), in: .capsule)
     }

@@ -73,7 +73,8 @@ final class ScreenshotTests: XCTestCase {
     @MainActor func test05Diagnostics() {
         let app = launch(scene: "diagnostics")
         waitFor("diagnostics", in: app)
-        snapshot(app, "05-launch-diagnostics")
+        // The sheet slides in with a glass blur. Wait it out, or the shot is blurry.
+        snapshot(app, "05-launch-diagnostics", settle: 4)
     }
 
     // MARK: Smoke

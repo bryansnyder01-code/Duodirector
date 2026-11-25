@@ -49,9 +49,16 @@ struct CaptureModeToggle: View {
                 Image(systemName: dual ? CaptureMode.dualPodcastMultiCam.symbol : CaptureMode.singleRearPro.symbol)
                     .font(.body.weight(.semibold))
                 if !compact {
-                    VStack(alignment: .leading, spacing: 0) {
-                        Text(dual ? "DUAL-CAM" : "SOLO 4K").font(.caption.bold())
-                        Text(dual ? "Host + Guest" : "Rear Pro").font(.system(size: 9)).opacity(0.75)
+                    // Narrow rails (inner display in portrait) drop the words rather than
+                    // wrap them one letter per line.
+                    ViewThatFits(in: .horizontal) {
+                        VStack(alignment: .leading, spacing: 0) {
+                            Text(dual ? "DUAL-CAM" : "SOLO 4K").font(.caption.bold())
+                            Text(dual ? "Host + Guest" : "Rear Pro").font(.system(size: 9)).opacity(0.75)
+                        }
+                        .fixedSize()
+                        Text(dual ? "DUAL" : "SOLO").font(.caption2.bold()).fixedSize()
+                        Color.clear.frame(width: 0)
                     }
                     Spacer(minLength: 0)
                 }

@@ -96,9 +96,11 @@ final class ScreenshotTests: XCTestCase {
         toggle.tap()
         let rolling = NSPredicate(format: "label == 'Stop'")
         expectation(for: rolling, evaluatedWith: toggle)
-        waitForExpectations(timeout: 10)            // after the default 3 s countdown
+        // 3 s countdown, plus slack: on a busy CI simulator each label check can take
+        // several seconds, so 10 s allowed only two looks.
+        waitForExpectations(timeout: 30)
         toggle.tap()
         expectation(for: NSPredicate(format: "label == 'Record'"), evaluatedWith: toggle)
-        waitForExpectations(timeout: 10)
+        waitForExpectations(timeout: 30)
     }
 }

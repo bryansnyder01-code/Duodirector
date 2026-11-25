@@ -69,7 +69,13 @@ struct LaunchDiagnosticsView: View {
     private var telemetrySection: some View {
         Section {
             LabeledContent("Capture mode") {
-                Label(state.captureMode.label, systemImage: state.captureMode.symbol)
+                // A plain HStack: a Label here grew the row to a third of the screen on iOS 27.
+                HStack(spacing: 6) {
+                    Image(systemName: state.captureMode.symbol).foregroundStyle(.tint)
+                    Text(state.captureMode.label)
+                }
+                .lineLimit(1)
+                .fixedSize()
             }
             VStack(alignment: .leading, spacing: 4) {
                 Text("Active cameras")

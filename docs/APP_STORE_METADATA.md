@@ -44,8 +44,8 @@ teleprompter,vlog,podcast,dual camera,livestream,rtmp,creator,video,studio,folda
 
 **Support URL:** [your site]/support
 **Marketing URL** (optional): [your site]
-**Privacy Policy URL:** hosted copy of docs/PRIVACY_POLICY.md
-**Copyright:** 2026 [Your name or company]
+**Privacy Policy URL:** https://bryansnyder01-code.github.io/Duodirector/privacy/
+**Copyright:** 2026 Bryan Snyder
 
 ## Spanish (Spain / Mexico)
 

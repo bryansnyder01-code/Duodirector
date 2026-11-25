@@ -10,7 +10,7 @@ import SwiftUI
 
 struct AboutView: View {
     /// Set this to the hosted copy of docs/PRIVACY_POLICY.md before submitting.
-    static let privacyPolicyURL = URL(string: "https://example.com/duodirector/privacy")!   // VERIFY: replace
+    static let privacyPolicyURL = URL(string: "https://bryansnyder01-code.github.io/Duodirector/privacy/")!
 
     private var version: String {
         let info = Bundle.main.infoDictionary

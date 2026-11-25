@@ -20,6 +20,18 @@ struct AboutView: View {
     var body: some View {
         List {
             Section {
+                VStack(spacing: 10) {
+                    Image("AppLogo")
+                        .resizable().scaledToFit()
+                        .frame(width: 96, height: 96)
+                        .clipShape(.rect(cornerRadius: 22, style: .continuous))
+                        .accessibilityHidden(true)
+                    Text(verbatim: "DuoDirector").font(.title2.bold())
+                }
+                .frame(maxWidth: .infinity)
+                .listRowBackground(Color.clear)
+            }
+            Section {
                 LabeledContent("Version", value: version)
                 Link("Privacy policy", destination: Self.privacyPolicyURL)
             }

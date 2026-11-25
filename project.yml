@@ -16,8 +16,7 @@ settings:
     # Swift 6 compiler would reject shows up as a warning, without blocking the first build
     # of code that has never been compiled. Once the warnings are cleared, flip to
     # SWIFT_VERSION: "6.0" (and drop SWIFT_STRICT_CONCURRENCY, which 6.0 implies).
-    SWIFT_VERSION: "5.0"
-    SWIFT_STRICT_CONCURRENCY: complete
+    SWIFT_VERSION: "6.0"                 # Phase 11: Swift 6 language mode (strict concurrency is implied)
     # Phase 7: String Catalogs (Resources/Localizable.xcstrings, InfoPlist.xcstrings).
     LOCALIZATION_PREFERS_STRING_CATALOGS: YES
     SWIFT_EMIT_LOC_STRINGS: YES
@@ -63,7 +62,6 @@ targets:
           - es
         UILaunchScreen: {}
         UIApplicationSupportsMultipleScenes: true
-        UIRequiresFullScreen: false
         UISupportedInterfaceOrientations:
           - UIInterfaceOrientationPortrait
           - UIInterfaceOrientationLandscapeLeft

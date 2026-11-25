@@ -86,6 +86,63 @@ jobs:
             build.log
             TestResults.xcresult
 
+  # App Store screenshots from the UI tests (Demo Mode, synthetic cameras, 9:41 status bar).
+  screenshots:
+    needs: build-and-test
+    runs-on: macos-26
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - name: Select newest Xcode
+        run: sudo xcode-select -s "$(ls -d /Applications/Xcode*.app | sort -V | tail -1)"
+      - name: Use compat mode if the iOS 27 SDK is missing
+        id: sdk
+        run: |
+          v=$(xcrun --sdk iphonesimulator --show-sdk-version)
+          if [ "${v%%.*}" -lt 27 ]; then
+            echo "::warning::iOS $v SDK only: screenshots use the compat build (no real cover-display accessory)."
+            sed -i '' 's/iOS: "27.1"/iOS: "26.0"/' project.yml
+            echo "conds=DEBUG DUO_COMPAT_SDK" >> "$GITHUB_OUTPUT"
+          else
+            echo "conds=DEBUG" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Generate project
+        run: brew install xcodegen && xcodegen generate
+      - name: Boot a simulator with a clean status bar
+        id: sim
+        run: |
+          read -r name udid < <(xcrun simctl list devices available -j | python3 -c '
+          import json,sys
+          d=[(x["name"],x["udid"]) for r in json.load(sys.stdin)["devices"].values() for x in r]
+          duo=[t for t in d if "Duo" in t[0]]; phones=[t for t in d if t[0].startswith("iPhone") and "Pro Max" in t[0]] or [t for t in d if t[0].startswith("iPhone")]
+          n,u=(duo or phones)[0]; print(n.replace(" ","_"), u)')
+          echo "udid=$udid" >> "$GITHUB_OUTPUT"
+          echo "Screenshots on: ${name//_/ }"
+          xcrun simctl boot "$udid" || true
+          xcrun simctl bootstatus "$udid" -b
+          xcrun simctl status_bar "$udid" override --time 9:41 --batteryState charged --batteryLevel 100 \
+            --cellularMode active --cellularBars 4 --wifiBars 3
+      - name: Run screenshot tests
+        run: |
+          set -o pipefail
+          xcodebuild test -project DuoDirector.xcodeproj -scheme DuoDirector \
+            -destination "id=${{ steps.sim.outputs.udid }}" \
+            -only-testing:DuoDirectorUITests \
+            CODE_SIGNING_ALLOWED=NO \
+            SWIFT_ACTIVE_COMPILATION_CONDITIONS="${{ steps.sdk.outputs.conds }}" \
+            -resultBundlePath Screenshots.xcresult | tail -200
+      - name: Export PNGs
+        if: always()
+        run: |
+          mkdir -p Screenshots
+          xcrun xcresulttool export attachments --path Screenshots.xcresult --output-path Screenshots || true
+          ls -la Screenshots
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: app-store-screenshots
+          path: Screenshots
+
   archive-and-upload:
     if: github.event_name == 'workflow_dispatch' && inputs.upload
     needs: build-and-test

@@ -61,6 +61,9 @@ struct InnerDirectorView: View {
         }
         .background(.black)
         .foregroundStyle(.white)
+        // A container element, so this identifier doesn't override the children's own
+        // (e.g. "tabletopDeck", which the screenshot UI test waits for).
+        .accessibilityElement(children: .contain)
         .accessibilityIdentifier("innerDirector")
         .sheet(isPresented: $showScriptDrawer) {
             ScriptDrawer(state: state)

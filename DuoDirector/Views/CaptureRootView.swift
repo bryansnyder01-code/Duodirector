@@ -182,6 +182,7 @@ struct CaptureRootView: View {
                     .foregroundStyle(.red)
             }
             .accessibilityLabel(state.isRecording ? "Stop" : "Record")
+            .accessibilityIdentifier("recordToggle")      // UI tests: the one toolbar record button
         }
         .duoVisibilityPriority(.duoCritical)
 

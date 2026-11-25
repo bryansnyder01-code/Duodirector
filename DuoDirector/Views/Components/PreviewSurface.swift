@@ -1,4 +1,4 @@
-import AVFoundation
+@preconcurrency import AVFoundation
 import SwiftUI
 import UIKit
 
@@ -75,10 +75,14 @@ struct LivePreviewLayerView: UIViewRepresentable {
     func makeUIView(context: Context) -> PreviewHostView {
         let view = PreviewHostView()
         view.onTap = onTap
+        // The layer is made on the session queue (it touches the session) and then only
+        // used on the main thread, so these hand-offs are safe.
+        nonisolated(unsafe) let host = view
         controller.sessionQueue.async {
             let layer = controller.makePreviewLayer(for: role)
             layer.videoGravity = .resizeAspectFill
-            DispatchQueue.main.async { view.install(layer) }
+            nonisolated(unsafe) let made = layer
+            DispatchQueue.main.async { host.install(made) }
         }
         return view
     }
@@ -111,7 +115,8 @@ struct LivePreviewLayerView: UIViewRepresentable {
             // A lens switch replaces the device input, which re-creates the layer's
             // connection. Re-bind the rotation coordinator to the new device when it does.
             inputObservation = layer.observe(\.connection, options: [.new]) { [weak self] _, _ in
-                DispatchQueue.main.async { self?.bindRotation() }
+                nonisolated(unsafe) let target = self
+                DispatchQueue.main.async { target?.bindRotation() }
             }
         }
 
@@ -122,9 +127,9 @@ struct LivePreviewLayerView: UIViewRepresentable {
             rotationCoordinator = coordinator
             layer.connection?.videoRotationAngle = coordinator.videoRotationAngleForHorizonLevelPreview
             rotationObservation = coordinator.observe(\.videoRotationAngleForHorizonLevelPreview) { [weak layer] coordinator, _ in
-                DispatchQueue.main.async {
-                    layer?.connection?.videoRotationAngle = coordinator.videoRotationAngleForHorizonLevelPreview
-                }
+                nonisolated(unsafe) let target = layer
+                let angle = coordinator.videoRotationAngleForHorizonLevelPreview
+                DispatchQueue.main.async { target?.connection?.videoRotationAngle = angle }
             }
         }
 

@@ -82,12 +82,17 @@ final class ScreenshotTests: XCTestCase {
     @MainActor func testRecordMarkerStopSmoke() {
         let app = launch(scene: "flat")
         waitFor("innerDirector", in: app)
-        let record = app.buttons["Record"].firstMatch
-        XCTAssertTrue(record.waitForExistence(timeout: 10))
-        record.tap()
-        let stop = app.buttons["Stop"].firstMatch
-        XCTAssertTrue(stop.waitForExistence(timeout: 10), "recording never started")   // after the default 3 s countdown
-        stop.tap()
-        XCTAssertTrue(app.buttons["Record"].firstMatch.waitForExistence(timeout: 10))
+        // The toolbar button by identifier: several controls are labelled "Record"
+        // (rail, fallback strip), and their labels change during the countdown.
+        let toggle = app.buttons["recordToggle"].firstMatch
+        XCTAssertTrue(toggle.waitForExistence(timeout: 10))
+        XCTAssertEqual(toggle.label, "Record")
+        toggle.tap()
+        let rolling = NSPredicate(format: "label == 'Stop'")
+        expectation(for: rolling, evaluatedWith: toggle)
+        waitForExpectations(timeout: 10)            // after the default 3 s countdown
+        toggle.tap()
+        expectation(for: NSPredicate(format: "label == 'Record'"), evaluatedWith: toggle)
+        waitForExpectations(timeout: 10)
     }
 }

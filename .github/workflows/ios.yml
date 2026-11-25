@@ -141,7 +141,7 @@ jobs:
           ls -la Screenshots
           # Failure attachments (element debug descriptions) go to the log, since the
           # artifact isn't always easy to open.
-          for f in Screenshots/*.txt; do [ -f "$f" ] && { echo "::group::$f"; cat "$f"; echo "::endgroup::"; }; done
+          for f in Screenshots/*.txt; do if [ -f "$f" ]; then echo "::group::$f"; cat "$f"; echo "::endgroup::"; fi; done
       - uses: actions/upload-artifact@v4
         if: always()
         with:

@@ -142,6 +142,16 @@ jobs:
           # Failure attachments (element debug descriptions) go to the log, since the
           # artifact isn't always easy to open.
           for f in Screenshots/*.txt; do if [ -f "$f" ]; then echo "::group::$f"; cat "$f"; echo "::endgroup::"; fi; done
+          # TEMP (screenshots-dump branch only): print each PNG as base64 so it can be read from the log.
+          python3 -c '
+          import json,glob,os,base64
+          m=json.load(open("Screenshots/manifest.json"))
+          for t in m:
+              for a in t.get("attachments",[]):
+                  f="Screenshots/"+a["exportedFileName"]
+                  if f.endswith(".png") and os.path.exists(f):
+                      print("@@IMG "+a.get("suggestedHumanReadableName","x")+" "+base64.b64encode(open(f,"rb").read()).decode()+" @@END")
+          '
       - uses: actions/upload-artifact@v4
         if: always()
         with:

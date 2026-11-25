@@ -111,20 +111,37 @@ private struct TakeRow: View {
                     Text("Take \(take.takeNumber)").font(.headline)
                     if let title = take.shotTitle { Text(title).font(.subheadline).foregroundStyle(.secondary).lineLimit(1) }
                 }
-                HStack(spacing: 8) {
-                    Text(CameraEngine.timecode(take.duration)).monospacedDigit()
-                    Text(take.startedAt, format: .dateTime.month().day().hour().minute())
-                    if !markers.isEmpty { Label("\(markers.count)", systemImage: "mappin.and.ellipse") }
-                    if take.compositeFileURL != nil { Label("Composite", systemImage: "rectangle.inset.bottomtrailing.filled") }
-                    if !take.hasMediaOnDisk { Label("No video file", systemImage: "exclamationmark.triangle").foregroundStyle(.orange) }
+                // Narrow widths (inner display in portrait, Split View): one line of text that
+                // never wraps letter by letter, then icon-only badges.
+                Text("\(CameraEngine.timecode(take.duration)) · \(take.startedAt.formatted(.dateTime.month(.abbreviated).day().hour().minute()))")
+                    .monospacedDigit()
+                    .lineLimit(1).minimumScaleFactor(0.8)
+                    .font(.caption).foregroundStyle(.secondary)
+                HStack(spacing: 10) {
+                    if !markers.isEmpty {
+                        Label("\(markers.count)", systemImage: "mappin.and.ellipse").labelStyle(.titleAndIcon)
+                    }
+                    if take.compositeFileURL != nil {
+                        Image(systemName: "rectangle.inset.bottomtrailing.filled").accessibilityLabel("Composite")
+                    }
+                    if take.captionsURL != nil {
+                        Image(systemName: "captions.bubble").accessibilityLabel("Captions")
+                    }
+                    if !take.hasMediaOnDisk {
+                        Label("No video", systemImage: "exclamationmark.triangle").foregroundStyle(.orange)
+                    }
                 }
                 .font(.caption)
                 .foregroundStyle(.secondary)
+                .lineLimit(1)
+                .fixedSize()
                 if let progress { ProgressView(value: progress) { Text("Rendering composite…").font(.caption2) } }
             }
-            Spacer()
+            Spacer(minLength: 4)
             Text(take.rating == 0 ? "—" : String(repeating: "★", count: take.rating))
+                .font(.caption)
                 .foregroundStyle(.yellow)
+                .fixedSize()
                 .accessibilityLabel(take.rating == 0 ? "Unrated" : "\(take.rating) stars")
         }
         .padding(.vertical, 2)

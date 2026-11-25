@@ -73,7 +73,13 @@ final class ScreenshotTests: XCTestCase {
     @MainActor func test05Diagnostics() {
         let app = launch(scene: "diagnostics")
         waitFor("diagnostics", in: app)
-        snapshot(app, "05-launch-diagnostics")
+        // The sheet opens full height for this scene. Wait until it has finished sliding
+        // up (the Done button is hittable) so the glass isn't caught mid-blur.
+        let done = app.buttons["Done"]
+        _ = done.waitForExistence(timeout: 10)
+        let deadline = Date().addingTimeInterval(10)
+        while !done.isHittable && Date() < deadline { Thread.sleep(forTimeInterval: 0.25) }
+        snapshot(app, "05-launch-diagnostics", settle: 3)
     }
 
     // MARK: Smoke
@@ -90,9 +96,11 @@ final class ScreenshotTests: XCTestCase {
         toggle.tap()
         let rolling = NSPredicate(format: "label == 'Stop'")
         expectation(for: rolling, evaluatedWith: toggle)
-        waitForExpectations(timeout: 10)            // after the default 3 s countdown
+        // 3 s countdown, plus slack: on a busy CI simulator each label check can take
+        // several seconds, so 10 s allowed only two looks.
+        waitForExpectations(timeout: 30)
         toggle.tap()
         expectation(for: NSPredicate(format: "label == 'Record'"), evaluatedWith: toggle)
-        waitForExpectations(timeout: 10)
+        waitForExpectations(timeout: 30)
     }
 }

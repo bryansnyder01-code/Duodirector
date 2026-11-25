@@ -27,6 +27,10 @@ on:
         description: "Archive and upload to App Store Connect"
         type: boolean
         default: false
+      dump_screenshots:
+        description: "Also print the screenshots into the log (for viewing without artifact access)"
+        type: boolean
+        default: false
 
 concurrency:
   group: ios-${{ github.ref }}
@@ -142,6 +146,17 @@ jobs:
           # Failure attachments (element debug descriptions) go to the log, since the
           # artifact isn't always easy to open.
           for f in Screenshots/*.txt; do if [ -f "$f" ]; then echo "::group::$f"; cat "$f"; echo "::endgroup::"; fi; done
+      - name: Print screenshots into the log (manual runs only)
+        if: always() && github.event_name == 'workflow_dispatch' && inputs.dump_screenshots
+        run: |
+          python3 -c '
+          import json,os,base64
+          for t in json.load(open("Screenshots/manifest.json")):
+              for a in t.get("attachments",[]):
+                  f="Screenshots/"+a["exportedFileName"]
+                  if f.endswith(".png") and os.path.exists(f):
+                      print("@@IMG "+a.get("suggestedHumanReadableName","x")+" "+base64.b64encode(open(f,"rb").read()).decode()+" @@END")
+          '
       - uses: actions/upload-artifact@v4
         if: always()
         with:

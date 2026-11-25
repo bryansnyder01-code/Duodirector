@@ -36,6 +36,9 @@ struct LaunchDiagnosticsView: View {
     @Environment(\.dismiss) private var dismiss
     /// Mirrors the engine's private override so the picker shows the current choice.
     @State private var simulatedThermal: ProcessInfo.ThermalState?
+    /// Screenshot runs open the sheet full height, so the shot shows every section
+    /// instead of one row under the half-height glass.
+    @State private var detent: PresentationDetent = LaunchOptions.current.scene == .diagnostics ? .large : .medium
 
     var body: some View {
         NavigationStack {
@@ -58,7 +61,7 @@ struct LaunchDiagnosticsView: View {
                 ToolbarItem(placement: .confirmationAction) { Button("Done") { dismiss() } }
             }
         }
-        .presentationDetents([.medium, .large])
+        .presentationDetents([.medium, .large], selection: $detent)
     }
 
     // MARK: 1. Telemetry
@@ -66,7 +69,13 @@ struct LaunchDiagnosticsView: View {
     private var telemetrySection: some View {
         Section {
             LabeledContent("Capture mode") {
-                Label(state.captureMode.label, systemImage: state.captureMode.symbol)
+                // A plain HStack: a Label here grew the row to a third of the screen on iOS 27.
+                HStack(spacing: 6) {
+                    Image(systemName: state.captureMode.symbol).foregroundStyle(.tint)
+                    Text(state.captureMode.label)
+                }
+                .lineLimit(1)
+                .fixedSize()
             }
             VStack(alignment: .leading, spacing: 4) {
                 Text("Active cameras")

@@ -173,6 +173,9 @@ struct InnerDirectorView: View {
                 // Tabletop + Dual-Cam: Host and Guest side by side above the fold.
                 Viewfinder(state: state, engine: engine, prompterHeight: 120,
                            dualLayout: state.isDualCam ? .sideBySide : .automatic)
+                    // Keep a strip for the status pills so they don't sit on the
+                    // HOST / GUEST tile labels.
+                    .padding(.top, 30)
                 Button { showScriptDrawer = true } label: {
                     Image(systemName: "square.and.pencil").frame(width: 40, height: 40)
                         .background(.black.opacity(0.5), in: .circle)
@@ -448,11 +451,14 @@ struct RightRailToolbar: View {
         GeometryReader { proxy in
             let regions = DuoRegions(proxy)
             let clear = regions.verticalInsets(forColumn: CGRect(origin: .zero, size: proxy.size))
+            // Under ~130pt (inner display in portrait) the rail goes icon-only instead of
+            // truncating every title to "…".
+            let iconOnly = proxy.size.width < 130
             ViewThatFits(in: .vertical) {
-                rail(minimumTier: .low)
-                rail(minimumTier: .standard)
-                rail(minimumTier: .high)
-                rail(minimumTier: .critical)
+                rail(minimumTier: .low, iconOnly: iconOnly)
+                rail(minimumTier: .standard, iconOnly: iconOnly)
+                rail(minimumTier: .high, iconOnly: iconOnly)
+                rail(minimumTier: .critical, iconOnly: iconOnly)
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
             .padding(.top, clear.top + 8)
@@ -462,14 +468,14 @@ struct RightRailToolbar: View {
     }
 
     @ViewBuilder
-    private func rail(minimumTier: RailTier) -> some View {
+    private func rail(minimumTier: RailTier, iconOnly: Bool) -> some View {
         VStack(spacing: 6) {
             // ── critical ──
             RecordButton(state: state, engine: engine, diameter: 60)
                 .padding(.bottom, 2)
             // Phase 4: one-tap Solo ↔ Dual. Critical tier: never folds into overflow, since
             // it's the first decision of a podcast session.
-            CaptureModeToggle(state: state, engine: engine, compact: minimumTier == .critical)
+            CaptureModeToggle(state: state, engine: engine, compact: minimumTier == .critical || iconOnly)
                 .padding(.bottom, 4)
 
             // ── high ──
@@ -509,7 +515,8 @@ struct RightRailToolbar: View {
             Spacer(minLength: 0)
             overflowMenu(collapsedTier: minimumTier)
         }
-        .padding(.horizontal, 8)
+        .padding(.horizontal, iconOnly ? 6 : 8)
+        .environment(\.railIconOnly, iconOnly)
     }
 
     /// Always-present overflow, plus anything below `collapsedTier` that no longer fits.
@@ -576,6 +583,7 @@ struct RightRailToolbar: View {
                 Button { engine.selectLens(lens) } label: {
                     Text(lens.label)
                         .font(.caption.bold())
+                        .lineLimit(1).minimumScaleFactor(0.6)
                         .frame(maxWidth: .infinity, minHeight: 40)
                         .background(state.activeLens == lens ? Color.yellow : Color.white.opacity(0.12), in: .rect(cornerRadius: 8))
                         .foregroundStyle(state.activeLens == lens ? .black : .white)
@@ -594,21 +602,7 @@ struct RightRailToolbar: View {
     }
 
     private func railButton(_ title: String, _ symbol: String, active: Bool, action: @escaping () -> Void) -> some View {
-        Button(action: action) {
-            HStack(spacing: 8) {
-                Image(systemName: symbol).font(.body.weight(.semibold)).frame(width: 22)
-                Text(title).font(.caption.weight(.medium)).lineLimit(1).minimumScaleFactor(0.75)
-                Spacer(minLength: 0)
-            }
-            .padding(.horizontal, 10)
-            .frame(maxWidth: .infinity, minHeight: 40)
-            .foregroundStyle(active ? .black : .white)
-            .background(active ? Color.yellow : Color.white.opacity(0.08), in: .rect(cornerRadius: 10))
-        }
-        .buttonStyle(.plain)
-        .sensoryFeedback(.selection, trigger: active)
-        .accessibilityLabel(title)
-        .accessibilityAddTraits(active ? .isSelected : [])
+        RailButton(title: title, symbol: symbol, active: active, action: action)
     }
 
     private func panelButton<Content: View>(_ panel: Panel, _ title: String, _ symbol: String,
@@ -620,6 +614,43 @@ struct RightRailToolbar: View {
                     .preferredColorScheme(.dark)
                     .presentationCompactAdaptation(.popover)   // stay a popover on iPhone
             }
+    }
+}
+
+/// The rail goes icon-only on narrow widths (title stays as the a11y label).
+private struct RailIconOnlyKey: EnvironmentKey { static let defaultValue = false }
+extension EnvironmentValues {
+    var railIconOnly: Bool {
+        get { self[RailIconOnlyKey.self] }
+        set { self[RailIconOnlyKey.self] = newValue }
+    }
+}
+
+private struct RailButton: View {
+    let title: String
+    let symbol: String
+    let active: Bool
+    let action: () -> Void
+    @Environment(\.railIconOnly) private var iconOnly
+
+    var body: some View {
+        Button(action: action) {
+            HStack(spacing: 8) {
+                Image(systemName: symbol).font(.body.weight(.semibold)).frame(width: 22)
+                if !iconOnly {
+                    Text(title).font(.caption.weight(.medium)).lineLimit(1).minimumScaleFactor(0.75)
+                    Spacer(minLength: 0)
+                }
+            }
+            .padding(.horizontal, iconOnly ? 0 : 10)
+            .frame(maxWidth: .infinity, minHeight: 40)
+            .foregroundStyle(active ? .black : .white)
+            .background(active ? Color.yellow : Color.white.opacity(0.08), in: .rect(cornerRadius: 10))
+        }
+        .buttonStyle(.plain)
+        .sensoryFeedback(.selection, trigger: active)
+        .accessibilityLabel(title)
+        .accessibilityAddTraits(active ? .isSelected : [])
     }
 }
 
@@ -695,6 +726,16 @@ private struct StatusBadges: View {
     let posture: DuoPosture
 
     var body: some View {
+        // Narrow widths: icon-only pills rather than pills truncated into each other.
+        ViewThatFits(in: .horizontal) {
+            pills(iconOnly: false)
+            pills(iconOnly: true)
+        }
+        .font(.caption2)
+        .allowsHitTesting(false)
+    }
+
+    private func pills(iconOnly: Bool) -> some View {
         HStack(spacing: 6) {
             pill(state.hingePosture.label
                  + (state.hingeAngleDegrees.map { " \(Int($0))°" } ?? "")
@@ -712,12 +753,37 @@ private struct StatusBadges: View {
             if case .failed(let message) = state.status { pill(message, "exclamationmark.triangle", .red) }
             if let note = state.statusNote { pill(note, "info.circle", .yellow) }
         }
-        .font(.caption2)
-        .allowsHitTesting(false)
+        .environment(\.statusPillIconOnly, iconOnly)
+        .fixedSize()
     }
 
     private func pill(_ text: String, _ icon: String, _ color: Color = .white) -> some View {
-        Label(text, systemImage: icon)
+        StatusPillLabel(text: text, icon: icon, color: color)
+    }
+}
+
+private struct StatusPillIconOnlyKey: EnvironmentKey { static let defaultValue = false }
+extension EnvironmentValues {
+    var statusPillIconOnly: Bool {
+        get { self[StatusPillIconOnlyKey.self] }
+        set { self[StatusPillIconOnlyKey.self] = newValue }
+    }
+}
+
+private struct StatusPillLabel: View {
+    let text: String
+    let icon: String
+    let color: Color
+    @Environment(\.statusPillIconOnly) private var iconOnly
+
+    var body: some View {
+        Group {
+            if iconOnly {
+                Image(systemName: icon).accessibilityLabel(text)
+            } else {
+                Label(text, systemImage: icon)
+            }
+        }
             .lineLimit(1)
             .padding(.horizontal, 8).padding(.vertical, 4)
             .foregroundStyle(color)

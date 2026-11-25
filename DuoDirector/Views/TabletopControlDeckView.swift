@@ -27,15 +27,20 @@ struct TabletopControlDeckView: View {
     var body: some View {
         GeometryReader { proxy in
             let narrow = proxy.size.width < 560
-            HStack(spacing: 12) {
+            // Under ~500pt (inner display in portrait) three pads can't fit their 44pt
+            // targets, so the audio pad goes (the levels are on the viewfinder too).
+            let compact = proxy.size.width < 500
+            HStack(spacing: compact ? 8 : 12) {
                 leftPad(narrow: narrow)
-                    .frame(width: proxy.size.width * (narrow ? 0.34 : 0.28))
+                    .frame(width: proxy.size.width * (compact ? 0.48 : narrow ? 0.34 : 0.28))
                 centerPad
                     .frame(maxWidth: .infinity)
-                rightPad(showsChecklist: !narrow)
-                    .frame(width: proxy.size.width * (narrow ? 0.26 : 0.32))
+                if !compact {
+                    rightPad(showsChecklist: !narrow)
+                        .frame(width: proxy.size.width * (narrow ? 0.26 : 0.32))
+                }
             }
-            .padding(12)
+            .padding(compact ? 8 : 12)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
         .background(

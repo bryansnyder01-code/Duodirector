@@ -232,7 +232,7 @@ struct CaptureRootView: View {
         }
         .duoVisibilityPriority(.low)
 
-        ToolbarOverflowMenu {
+        DuoToolbarOverflowMenu {
             CinemaSettingsMenuContent(state: state, engine: engine)
             Section("Launch") {
                 Button("Launch & Diagnostics", systemImage: "stethoscope") { showDiagnostics = true }

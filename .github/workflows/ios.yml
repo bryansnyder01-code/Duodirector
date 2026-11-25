@@ -42,6 +42,19 @@ jobs:
         run: brew install xcodegen && xcodegen generate
       - name: Resolve packages
         run: xcodebuild -resolvePackageDependencies -project DuoDirector.xcodeproj -scheme DuoDirector
+      - name: Use compat mode if the iOS 27 SDK is missing
+        id: sdk
+        run: |
+          v=$(xcrun --sdk iphonesimulator --show-sdk-version)
+          echo "iOS Simulator SDK: $v"
+          if [ "${v%%.*}" -lt 27 ]; then
+            echo "::warning::iOS $v SDK only. Building in DUO_COMPAT_SDK mode (iOS 27 APIs stubbed, deployment 26.0). Not a shippable build."
+            echo "deploy=26.0" >> "$GITHUB_OUTPUT"
+            echo "conds=DEBUG DUO_COMPAT_SDK" >> "$GITHUB_OUTPUT"
+          else
+            echo "deploy=27.1" >> "$GITHUB_OUTPUT"
+            echo "conds=DEBUG" >> "$GITHUB_OUTPUT"
+          fi
       - name: Pick a simulator
         id: sim
         run: |
@@ -58,7 +71,10 @@ jobs:
           xcodebuild test -project DuoDirector.xcodeproj -scheme DuoDirector \
             -destination "platform=iOS Simulator,name=${{ steps.sim.outputs.name }}" \
             -only-testing:DuoDirectorTests \
-            CODE_SIGNING_ALLOWED=NO -resultBundlePath TestResults.xcresult | tee build.log
+            CODE_SIGNING_ALLOWED=NO \
+            IPHONEOS_DEPLOYMENT_TARGET="${{ steps.sdk.outputs.deploy }}" \
+            SWIFT_ACTIVE_COMPILATION_CONDITIONS="${{ steps.sdk.outputs.conds }}" \
+            -resultBundlePath TestResults.xcresult | tee build.log
       - name: Keep the log and results
         if: always()
         uses: actions/upload-artifact@v4
@@ -77,6 +93,13 @@ jobs:
       - uses: actions/checkout@v4
       - name: Select newest Xcode
         run: sudo xcode-select -s "$(ls -d /Applications/Xcode*.app | sort -V | tail -1)"
+      - name: Require the iOS 27 SDK
+        run: |
+          v=$(xcrun --sdk iphoneos --show-sdk-version)
+          if [ "${v%%.*}" -lt 27 ]; then
+            echo "::error::This runner only has the iOS $v SDK. App Store builds need Xcode 27 (iOS 27.1 SDK). Use a self-hosted Mac runner or wait for GitHub's image update."
+            exit 1
+          fi
       - name: Generate project (1.0 = no LiveKit)
         run: brew install xcodegen && xcodegen generate --spec project.yml
       - name: Write the App Store Connect key

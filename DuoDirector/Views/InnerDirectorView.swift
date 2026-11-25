@@ -117,7 +117,7 @@ struct InnerDirectorView: View {
         let topRect = CGRect(x: insets.leading + 16, y: insets.top + 44, width: card.width, height: card.height)
         let hudAtTop = !regions.collides(topRect)
 
-        return ArrangementView {
+        return DuoOverlayArrangement {
             // PRIMARY (floats above in .overlay): the compact Shot List HUD card.
             ShotListHUDCard(state: state)
                 .frame(width: card.width)
@@ -137,15 +137,13 @@ struct InnerDirectorView: View {
                     .padding(.trailing, insets.trailing)
             }
         }
-        .arrangementViewStyle(.overlay)
     }
 
     // MARK: Book (vertical crease): split arrangement
 
     private func bookLayout(regions: DuoRegions) -> some View {
-        ArrangementView {
+        DuoSplitArrangement(primaryRatio: 0.6) {
             ViewfinderPane(state: state, engine: engine)
-                .splitArrangementLayoutRatio(0.6)
         } secondary: {
             HStack(spacing: 0) {
                 DirectorPanel(state: state, engine: engine)
@@ -154,7 +152,6 @@ struct InnerDirectorView: View {
             }
             .padding(regions.occlusionInsets)
         }
-        .arrangementViewStyle(.split)
     }
 
     // MARK: Tabletop 90° L-mode (horizontal crease): explicit ReservedRegion layout

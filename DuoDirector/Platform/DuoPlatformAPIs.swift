@@ -36,6 +36,11 @@ import SwiftUI
 //     deriving posture from active .division regions, which is what DuoPosture does.
 //   • A system "trailing vertical toolbar" placement: none found. RightRailToolbar is our
 //     own vertical rail that collapses via ViewThatFits.
+//
+//  CI COMPAT MODE (`DUO_COMPAT_SDK`): GitHub's macOS runners don't have Xcode 27 / the
+//  iOS 27 SDK yet. CI then builds with this flag and a 26.0 deployment target, and every
+//  iOS 27 call below falls back to a plain-SwiftUI stand-in, so the other ~95 % of the app
+//  is still compiled and unit-tested. Never ship a compat build.
 // =====================================================================================
 
 // MARK: - Outer cover display (CameraCaptureAccessory)
@@ -61,6 +66,9 @@ extension View {
         // UNCONFIRMED SIGNATURE: `sceneAccessory(content:)`. If it fails to compile, check
         // the modifier's declaration in Xcode's Quick Help; the CameraCaptureAccessory
         // pieces inside it are confirmed.
+        #if DUO_COMPAT_SDK
+        self
+        #else
         self.sceneAccessory {
             CameraCaptureAccessory(isEnabled: isEnabled) {
                 content()
@@ -69,6 +77,7 @@ extension View {
                 onAvailabilityChange(isAvailable)
             }
         }
+        #endif
     }
 }
 
@@ -79,9 +88,13 @@ extension View {
     /// `isEnabled` turns false). SwiftUI calls this with the initial context and again as
     /// the hinge moves, at a pace the system sets. Behaviour only, never layout.
     func duoOnHingeChange(isEnabled: Bool = true, perform: @escaping (Double?) -> Void) -> some View {
+        #if DUO_COMPAT_SDK
+        self
+        #else
         onHingeChange(isEnabled: isEnabled) { _, newContext in
             perform(newContext.hinge?.angle.degrees)
         }
+        #endif
     }
 }
 
@@ -121,11 +134,15 @@ struct DuoRegions: Sendable {
     init(_ proxy: GeometryProxy) {
         // Default options: only *active* regions. `.division` is inactive when fully open,
         // which is exactly what we want (flat = no fold avoidance).
+        #if DUO_COMPAT_SDK
+        divisionFrames = []; occlusionFrames = []; size = proxy.size
+        #else
         divisionFrames = proxy.reservedRegions(kind: .division).map(\.frame)
         // `.occlusion` covers the inner under-display camera (when active), the Dynamic
         // Island / status area, and any trailing system toolbar/window controls.
         occlusionFrames = proxy.reservedRegions(kind: .occlusion).map(\.frame)
         size = proxy.size
+        #endif
     }
 
     /// Test / preview initializer.
@@ -210,14 +227,83 @@ struct DuoRegions: Sendable {
 
 // MARK: - Toolbar priorities
 
-extension ToolbarItemVisibilityPriority {
+/// Our own priority names, mapped to ToolbarItemVisibilityPriority (iOS 27) in one place.
+enum DuoToolbarPriority {
+    case low, high
     /// Record must be the very last thing to collapse.
-    static let duoCritical = ToolbarItemVisibilityPriority(higherThan: .high)
+    case duoCritical
 }
 
 extension ToolbarContent {
     /// Thin wrapper so the (not fully confirmed) modifier name lives in one place.
-    func duoVisibilityPriority(_ priority: ToolbarItemVisibilityPriority) -> some ToolbarContent {
-        visibilityPriority(priority)
+    func duoVisibilityPriority(_ priority: DuoToolbarPriority) -> some ToolbarContent {
+        #if DUO_COMPAT_SDK
+        return self
+        #else
+        let value: ToolbarItemVisibilityPriority = switch priority {
+        case .low: .low
+        case .high: .high
+        case .duoCritical: ToolbarItemVisibilityPriority(higherThan: .high)
+        }
+        return visibilityPriority(value)
+        #endif
+    }
+}
+
+/// ToolbarOverflowMenu (iOS 27.0), or a trailing "•••" menu in compat builds.
+struct DuoToolbarOverflowMenu<Content: View>: ToolbarContent {
+    @ViewBuilder var content: () -> Content
+
+    var body: some ToolbarContent {
+        #if DUO_COMPAT_SDK
+        ToolbarItem(placement: .topBarTrailing) {
+            Menu { content() } label: { Image(systemName: "ellipsis.circle") }
+                .accessibilityLabel("More")
+        }
+        #else
+        ToolbarOverflowMenu { content() }
+        #endif
+    }
+}
+
+// MARK: - ArrangementView (iOS 27.1)
+
+/// `.overlay` arrangement: `primary` floats over `secondary`.
+struct DuoOverlayArrangement<Primary: View, Secondary: View>: View {
+    @ViewBuilder var primary: () -> Primary
+    @ViewBuilder var secondary: () -> Secondary
+
+    var body: some View {
+        #if DUO_COMPAT_SDK
+        ZStack { secondary(); primary() }
+        #else
+        ArrangementView { primary() } secondary: { secondary() }
+            .arrangementViewStyle(.overlay)
+        #endif
+    }
+}
+
+/// `.split` arrangement with `primary` taking `primaryRatio` of the space.
+struct DuoSplitArrangement<Primary: View, Secondary: View>: View {
+    var primaryRatio: CGFloat
+    @ViewBuilder var primary: () -> Primary
+    @ViewBuilder var secondary: () -> Secondary
+
+    var body: some View {
+        #if DUO_COMPAT_SDK
+        GeometryReader { proxy in
+            HStack(spacing: 0) {
+                primary().frame(width: proxy.size.width * primaryRatio)
+                secondary()
+            }
+        }
+        #else
+        ArrangementView {
+            primary().splitArrangementLayoutRatio(primaryRatio)
+        } secondary: {
+            secondary()
+        }
+        .arrangementViewStyle(.split)
+        #endif
     }
 }

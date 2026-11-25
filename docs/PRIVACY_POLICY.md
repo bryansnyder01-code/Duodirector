@@ -1,6 +1,6 @@
 # DuoDirector Privacy Policy
 
-*Effective: [DATE]. Replace the bracketed parts, host this page (GitHub Pages works), and paste its URL into App Store Connect and `AboutView.privacyPolicyURL`.*
+*Effective: November 25, 2026. Hosted at https://bryansnyder01-code.github.io/Duodirector/privacy/ (generated into site/privacy/index.html).*
 
 DuoDirector is a video recording app. We built it so your recordings stay yours.
 
@@ -21,4 +21,4 @@ DuoDirector isn't directed at children and collects no personal information from
 If this policy changes, we'll update this page and its effective date.
 
 ## Contact
-[Your name or company] · [contact email or form]
+Bryan Snyder · [Bryan.Snyder01@gmail.com](mailto:Bryan.Snyder01@gmail.com)

@@ -127,8 +127,11 @@ private struct TakeRow: View {
                     if take.captionsURL != nil {
                         Image(systemName: "captions.bubble").accessibilityLabel("Captions")
                     }
-                    if !take.hasMediaOnDisk {
-                        Label("No video", systemImage: "exclamationmark.triangle").foregroundStyle(.orange)
+                    if take.isMissingMedia {
+                        // Say it in words: a bare triangle read as "this take failed".
+                        Label("No video file", systemImage: "exclamationmark.triangle")
+                            .labelStyle(.titleAndIcon)
+                            .foregroundStyle(.orange)
                     }
                 }
                 .font(.caption)
@@ -387,6 +390,12 @@ struct SocialExportSheet: View {
     var body: some View {
         NavigationStack {
             Form {
+                // What you'll get, before spending battery on the encode.
+                Section {
+                    SocialExportPreview(take: take, options: options)
+                        .frame(maxWidth: .infinity)
+                        .listRowBackground(Color.clear)
+                }
                 Section {
                     Toggle("Vertical 9:16", isOn: $options.vertical)
                     Toggle("Burn in captions", isOn: $options.burnCaptions)
@@ -411,6 +420,70 @@ struct SocialExportSheet: View {
             .toolbar { ToolbarItem(placement: .cancellationAction) { Button("Cancel") { dismiss() } } }
             .onAppear { options.burnCaptions = take.captionsURL != nil }
         }
-        .presentationDetents([.medium])
+        .presentationDetents([.large])
+    }
+}
+
+/// A still from the take, framed the way the export will frame it, with the first caption
+/// drawn the way SocialExporter burns it in (white semibold on a dark rounded box).
+/// The still is the centre of the take; the face-tracking crop is only worked out
+/// during the export, so the preview uses the centre crop.
+private struct SocialExportPreview: View {
+    let take: TakeRecord
+    let options: SocialExporter.Options
+    @State private var still: CGImage?
+    @State private var caption: String?
+
+    var body: some View {
+        let aspect: CGFloat = options.vertical ? 9.0 / 16.0 : 16.0 / 9.0
+        ZStack(alignment: .bottom) {
+            picture
+            if options.burnCaptions, let caption {
+                Text(caption)
+                    .font(.system(size: options.vertical ? 13 : 11, weight: .semibold))
+                    .multilineTextAlignment(.center)
+                    .foregroundStyle(.white)
+                    .padding(.horizontal, 8).padding(.vertical, 5)
+                    .background(.black.opacity(0.6), in: .rect(cornerRadius: 5))
+                    .padding(.horizontal, 10)
+                    .padding(.bottom, options.vertical ? 50 : 14)
+            }
+        }
+        .aspectRatio(aspect, contentMode: .fit)
+        .frame(maxHeight: options.vertical ? 340 : 190)
+        .clipShape(.rect(cornerRadius: 14))
+        .overlay(RoundedRectangle(cornerRadius: 14).stroke(.white.opacity(0.2)))
+        .animation(.snappy, value: options)
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel(options.vertical ? "Preview of the vertical export" : "Preview of the export")
+        .task(id: take.id) { await load() }
+    }
+
+    @ViewBuilder private var picture: some View {
+        if let still {
+            Image(decorative: still, scale: 1).resizable().scaledToFill()
+                .frame(maxWidth: .infinity, maxHeight: .infinity).clipped()
+        } else {
+            // No file (Demo Mode, or the video is gone): the same stand-in look as the
+            // synthetic camera, so the frame still reads as "a person on camera".
+            ZStack {
+                LinearGradient(colors: [Color(red: 0.27, green: 0.33, blue: 0.47), Color(red: 0.13, green: 0.16, blue: 0.25)],
+                               startPoint: .top, endPoint: .bottom)
+                Circle().fill(Color(red: 0.94, green: 0.78, blue: 0.64)).frame(width: 90).blur(radius: 14)
+                    .offset(y: -30)
+            }
+        }
+    }
+
+    private func load() async {
+        if let srt = take.captionsURL, let text = try? String(contentsOf: srt, encoding: .utf8) {
+            caption = SubRip.parse(text).first?.text
+        }
+        guard let source = SocialExporter.sourceURL(for: take) else { return }
+        let generator = AVAssetImageGenerator(asset: AVURLAsset(url: source))
+        generator.appliesPreferredTrackTransform = true
+        generator.maximumSize = CGSize(width: 720, height: 720)
+        let middle = CMTime(seconds: max(0, take.duration / 2), preferredTimescale: 600)
+        still = try? await generator.image(at: middle).image
     }
 }

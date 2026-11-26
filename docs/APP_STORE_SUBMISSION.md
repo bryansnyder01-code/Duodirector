@@ -41,7 +41,7 @@ Claim only what you've tested on device:
 - [ ] Captions / Audio Descriptions: not applicable (it's a recording app).
 
 ## 5. Screenshots & previews
-- [ ] **(Mac)** `scripts/capture-screenshots.sh "iPhone Duo" Screenshots/` captures five PNGs (cover, flat dual-cam, tabletop, takes, diagnostics).
+- [ ] **(Mac)** `scripts/capture-screenshots.sh "iPhone Duo" Screenshots/` captures the App Store set (cover, flat dual-cam, tabletop, takes, vertical captions export) plus a diagnostics check shot (06, not for the store).
 - [ ] Check which display sizes App Store Connect asks for iPhone Duo. If it wants the 5.4" cover set separately, use `01-cover-5.4in-monitor`.
 - [ ] Optional App Preview video: record the Simulator in Demo Mode, rolling a take in tabletop.
 - [ ] Screenshots must not show "SIMULATED" captions (Demo Mode hides them) or a non-9:41 status bar (the script overrides it).

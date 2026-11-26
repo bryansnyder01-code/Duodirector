@@ -389,6 +389,9 @@ enum DemoModePreset {
                        captureMode: .dualPodcastMultiCam, exportStyle: .pictureInPicture,
                        innerStartOffset: 0.017, shotTitle: shotList[min(n - 1, 1)].title)
         }
+        // Captions on the newest take, so the takes list shows the badge and the social
+        // export sheet can preview burned-in captions (Phase 11).
+        state.takes[2].captionsURL = demoCaptionsFile()
         state.chapterMarkers = [
             TakeMarker(takeNumber: 2, timestamp: 48, rating: 4, note: "Great laugh, use as cold open"),
             TakeMarker(takeNumber: 3, timestamp: 63, rating: 5, note: "Good take"),
@@ -403,6 +406,16 @@ enum DemoModePreset {
         if state.isMultiCamSupported { engine.setCaptureMode(.dualPodcastMultiCam) }
         state.setPrompterPlaying(true)
         state.showBanner("Demo Mode on: sample podcast loaded.", seconds: 3)
+    }
+
+    /// A short .srt in the temporary folder (never in the project's Takes folder).
+    private static func demoCaptionsFile() -> URL? {
+        let cues = [
+            CaptionCue(start: 0, end: 3.2, lines: ["So the first prototype", "was literally held together with tape."]),
+            CaptionCue(start: 3.4, end: 6, lines: ["And it still worked."]),
+        ]
+        let url = FileManager.default.temporaryDirectory.appending(path: "DuoDirector-demo-captions.srt")
+        do { try SubRip.render(cues).write(to: url, atomically: true, encoding: .utf8); return url } catch { return nil }
     }
 
     static func restore(state: StudioSessionState, engine: CameraEngine) {

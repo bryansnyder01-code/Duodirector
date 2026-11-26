@@ -199,6 +199,12 @@ struct TakeRecord: Identifiable, Codable, Hashable, Sendable {
     var hasMediaOnDisk: Bool {
         [rearFileURL, innerFileURL].compactMap { $0 }.contains { FileManager.default.fileExists(atPath: $0.path) }
     }
+
+    /// The take was recorded to files that are gone (deleted in Files, or a project synced
+    /// from another device). Takes with no files at all, such as Demo Mode's, don't count.
+    var isMissingMedia: Bool {
+        (rearFileURL != nil || innerFileURL != nil) && !hasMediaOnDisk
+    }
 }
 
 // MARK: - Phase 4: capture mode & dual export

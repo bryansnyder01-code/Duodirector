@@ -2923,6 +2923,66 @@
           }
         }
       }
+    },
+    "Board": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Guion gráfico"
+          }
+        }
+      }
+    },
+    "Shot List": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lista de planos"
+          }
+        }
+      }
+    },
+    "Shots": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Planos"
+          }
+        }
+      }
+    },
+    "Storyboard": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Guion gráfico"
+          }
+        }
+      }
+    },
+    "Preview of the vertical export": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vista previa de la exportación vertical"
+          }
+        }
+      }
+    },
+    "Preview of the export": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vista previa de la exportación"
+          }
+        }
+      }
     }
   },
   "version": "1.0"

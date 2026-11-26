@@ -472,6 +472,7 @@ struct RightRailToolbar: View {
         VStack(spacing: 6) {
             // ── critical ──
             RecordButton(state: state, engine: engine, diameter: 60)
+                .accessibilityIdentifier("recordToggle")   // UI tests: the record button
                 .padding(.bottom, 2)
             // Phase 4: one-tap Solo ↔ Dual. Critical tier: never folds into overflow, since
             // it's the first decision of a podcast session.
@@ -484,7 +485,7 @@ struct RightRailToolbar: View {
                 railButton("Prompter", state.isPrompterPlaying ? "pause.fill" : "play.fill",
                            active: state.isPrompterPlaying) { state.togglePrompter() }
                 railButton("Peaking", "scope", active: state.showFocusPeaking) { state.showFocusPeaking.toggle() }
-                railButton("Zebras", "line.diagonal", active: state.showZebraStripes) { state.showZebraStripes.toggle() }
+                railButton("Zebras", "circle.lefthalf.striped.horizontal", active: state.showZebraStripes) { state.showZebraStripes.toggle() }
             }
 
             // ── standard ──

@@ -5,14 +5,14 @@ import Foundation
 ///   -DuoDirectorUITest YES             throwaway project file, no iCloud
 ///   -DuoDirectorMock YES               synthetic cameras (already used since Phase 1)
 ///   -DuoDirectorDemoMode YES           load the Demo Mode / App Store preset at launch
-///   -DuoDirectorScreenshotScene <s>    cover | flat | tabletop | takes | diagnostics
+///   -DuoDirectorScreenshotScene <s>    cover | flat | tabletop | takes | social | diagnostics
 ///   -DuoDirectorRolling YES            start a (mock) take so the REC tally shows
 ///
 /// Parsing is pure (`init(arguments:)`) so it's unit-tested.
 struct LaunchOptions: Equatable, Sendable {
 
     enum ScreenshotScene: String, CaseIterable, Sendable {
-        case cover, flat, tabletop, takes, diagnostics
+        case cover, flat, tabletop, takes, social, diagnostics
     }
 
     var isUITest = false

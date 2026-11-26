@@ -9,6 +9,8 @@ struct CaptureRootView: View {
 
     @Environment(\.scenePhase) private var scenePhase
     @State private var showEditor = false
+    /// Screenshot scene "social": the vertical/captions export sheet for the newest take.
+    @State private var socialExportTake: TakeRecord?
     @State private var showManualControls = false
     @State private var showOuterSimulator = false
     @State private var showDiagnostics = false
@@ -82,6 +84,9 @@ struct CaptureRootView: View {
         }
         .sheet(isPresented: $showEditor) {
             ScriptShotListEditorView(state: state, engine: engine, initialPane: editorStartPane)
+        }
+        .sheet(item: $socialExportTake) { take in
+            SocialExportSheet(take: take, engine: engine)
         }
         .sheet(isPresented: $showManualControls) {
             NavigationStack {
@@ -170,8 +175,18 @@ struct CaptureRootView: View {
         switch options.scene {
         case .cover: showOuterSimulator = true
         case .flat: state.simulatedHingePosture = .flat
-        case .tabletop: state.simulatedHingePosture = .tabletopLShape
+        case .tabletop:
+            state.simulatedHingePosture = .tabletopLShape
+            // Hold the prompter at the top of the script: by the time the take has rolled
+            // and the shot settles, a playing prompter has scrolled past the end. Rolling
+            // restarts the prompter, so wait for the take to start first.
+            Task { @MainActor in
+                for _ in 0..<100 where !state.isRecording { try? await Task.sleep(for: .milliseconds(100)) }
+                state.setPrompterPlaying(false)
+                state.resetPrompter()
+            }
         case .takes: editorStartPane = .takes; showEditor = true
+        case .social: socialExportTake = state.takes.max { $0.takeNumber < $1.takeNumber }
         case .diagnostics: showDiagnostics = true
         case nil: break
         }
@@ -188,15 +203,10 @@ struct CaptureRootView: View {
     // the system overflow menu first; Record goes last. Items placed inside
     // ToolbarOverflowMenu always live in overflow and never come back into the bar.
 
-    // Phase 3 priorities (iOS 27 ToolbarItemVisibilityPriority). Highest stay longest:
-    //   .duoCritical  Record
-    //   .high         Lens switcher, Prompter play/pause, Peaking, Zebras
-    //   (automatic)   Shot list / sketches
-    //   .low          Camera settings sheet
-    // Secondary cinema settings (codec, Dolby Vision, zebra threshold, grid opacity,
-    // mirroring) live in ToolbarOverflowMenu, which ALWAYS stays in overflow, so narrow
-    // widths and split modes never push them over reserved regions. The vertical right
-    // rail (RightRailToolbar) mirrors the same tiers.
+    // Phase 3 priorities (iOS 27 ToolbarItemVisibilityPriority). Since the 1.0 polish the
+    // bar holds only Camera settings (.low) and ToolbarOverflowMenu (always in overflow:
+    // codec, Dolby Vision, zebra threshold, grid opacity, mirroring, diagnostics, Go Live).
+    // Record and the quick toggles live in RightRailToolbar / TabletopControlDeckView.
 
     @ToolbarContentBuilder
     private var toolbarContent: some ToolbarContent {
@@ -204,61 +214,10 @@ struct CaptureRootView: View {
             FormatBadge(state: state)
         }
 
-        ToolbarItem(placement: .topBarTrailing) {
-            // iOS 27 toolbars keep a bar item's accessibility label after an
-            // .accessibilityLabel change (CI saw "Record" while rolling). A Label title
-            // plus a state-keyed id makes the system rebuild the item when the state flips.
-            Button { engine.toggleRecording() } label: {
-                Label(state.isRecording ? "Stop" : "Record",
-                      systemImage: state.isRecording ? "stop.circle.fill" : "record.circle")
-                    .labelStyle(.iconOnly)
-                    .foregroundStyle(.red)
-            }
-            .id(state.isRecording)
-            .accessibilityIdentifier("recordToggle")      // UI tests: the one toolbar record button
-        }
-        .duoVisibilityPriority(.duoCritical)
-
-        ToolbarItem(placement: .topBarTrailing) {
-            Menu {
-                Picker("Lens", selection: Binding(get: { state.activeLens }, set: { engine.selectLens($0) })) {
-                    ForEach(LensOption.allCases) { Text("\($0.label)  \($0.focalLength)").tag($0) }
-                }
-            } label: {
-                Label(state.activeLens.label, systemImage: "camera.aperture")
-            }
-            .accessibilityLabel("Lens")
-        }
-        .duoVisibilityPriority(.high)
-
-        ToolbarItem(placement: .topBarTrailing) {
-            Button { state.togglePrompter() } label: {
-                Image(systemName: state.isPrompterPlaying ? "pause.circle" : "play.circle")
-            }
-            .accessibilityLabel(state.isPrompterPlaying ? "Pause teleprompter" : "Play teleprompter")
-        }
-        .duoVisibilityPriority(.high)
-
-        ToolbarItem(placement: .topBarTrailing) {
-            Button { state.showFocusPeaking.toggle() } label: {
-                Image(systemName: "scope").symbolVariant(state.showFocusPeaking ? .fill : .none)
-            }
-            .accessibilityLabel("Focus peaking")
-        }
-        .duoVisibilityPriority(.high)
-
-        ToolbarItem(placement: .topBarTrailing) {
-            Button { state.showZebraStripes.toggle() } label: {
-                Image(systemName: state.showZebraStripes ? "circle.lefthalf.striped.horizontal" : "circle.lefthalf.filled")
-            }
-            .accessibilityLabel("Zebras")
-        }
-        .duoVisibilityPriority(.high)
-
-        ToolbarItem(placement: .topBarTrailing) {
-            Button { state.isShotListDrawerOpen = true } label: { Image(systemName: "pencil.and.list.clipboard") }
-                .accessibilityLabel("Shot list and sketches")
-        }
+        // Record, lens, prompter, peaking, zebras and the shot list used to be here too,
+        // but the inner screen always shows them already (the right rail when flat or in
+        // book posture, the control deck in tabletop), so the bar showed every control
+        // twice. The bar keeps only what the rail and deck don't have.
 
         ToolbarItem(placement: .topBarTrailing) {
             Button { showManualControls = true } label: { Image(systemName: "slider.horizontal.3") }

@@ -27,14 +27,16 @@ struct FramingGuidesOverlay: View {
                 if show16x9 {
                     let r = Self.fitted(aspect: 16.0 / 9.0, in: size)
                     Path(r).stroke(.white.opacity(0.85), style: StrokeStyle(lineWidth: 1.5, dash: [8, 5]))
-                    tag("16:9 YouTube", .white, at: CGPoint(x: r.minX + 46, y: r.minY + 11))
+                    tag("16:9 YouTube", .white, in: r, at: .topLeading)
                 }
                 if show9x16 {
                     let r = Self.fitted(aspect: 9.0 / 16.0, in: size)
                     Path(r).stroke(.yellow.opacity(0.9), style: StrokeStyle(lineWidth: 1.5, dash: [8, 5]))
                     Path(CGRect(x: r.minX, y: r.maxY - r.height * 0.2, width: r.width, height: r.height * 0.2))
                         .fill(.yellow.opacity(0.08))
-                    tag("9:16 Reels/TikTok", .yellow, at: CGPoint(x: r.minX + 58, y: r.minY + 11))
+                    // Middle of the left edge: the top is under the teleprompter and the
+                    // bottom corners hold the timecode, meters and Host tile.
+                    tag("9:16 Reels/TikTok", .yellow, in: r, at: .leading)
                 }
             }
             .opacity(opacity)
@@ -49,13 +51,19 @@ struct FramingGuidesOverlay: View {
         return CGRect(x: (size.width - w) / 2, y: (size.height - h) / 2, width: w, height: h)
     }
 
-    private func tag(_ text: String, _ color: Color, at point: CGPoint) -> some View {
+    /// A label tucked inside a corner of its guide, measured so it never hangs off the
+    /// edge of the screen (it used to be centred on a fixed point and got clipped).
+    private func tag(_ text: LocalizedStringKey, _ color: Color, in rect: CGRect, at corner: Alignment) -> some View {
         Text(text)
-            .font(.caption2.monospaced().bold())
+            .font(.caption2.weight(.bold))
             .foregroundStyle(color)
-            .padding(.horizontal, 4)
-            .background(.black.opacity(0.45), in: .rect(cornerRadius: 3))
-            .position(point)
+            .lineLimit(1)
+            .fixedSize()
+            .padding(.horizontal, 6).padding(.vertical, 2)
+            .background(.black.opacity(0.6), in: .capsule)
+            .padding(6)
+            .frame(width: max(0, rect.width), height: max(0, rect.height), alignment: corner)
+            .position(x: rect.midX, y: rect.midY)
     }
 }
 
@@ -151,8 +159,12 @@ struct TeleprompterText: View {
                     .multilineTextAlignment(.center)
                     .lineSpacing(state.prompterFontSize * 0.25)
                     .frame(width: max(0, proxy.size.width - 24))
+                    // Full height, not the box's height: otherwise the script is cut to
+                    // a few lines and scrolls away, leaving the prompter blank.
+                    .fixedSize(horizontal: false, vertical: true)
                     .padding(.horizontal, 12)
                     .offset(y: proxy.size.height * 0.2 - state.prompterOffset(at: context.date) * fontScale)
+                    .frame(width: proxy.size.width, height: proxy.size.height, alignment: .top)
             }
             // Beam-splitter rigs need the text flipped.
             .scaleEffect(x: state.prompterMirrored ? -1 : 1, y: 1)

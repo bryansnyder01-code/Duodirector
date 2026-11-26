@@ -15,6 +15,16 @@ struct ScriptShotListEditorView: View {
     enum Pane: String, CaseIterable, Identifiable {
         case script = "Script", shots = "Shot List", storyboard = "Storyboard", takes = "Takes"
         var id: String { rawValue }
+        /// Short names for the segmented control, so all four fit in a phone-width toolbar
+        /// ("Shot Li…" / "Storyb…" before). The navigation title keeps the full name.
+        var tabLabel: LocalizedStringKey {
+            switch self {
+            case .script: "Script"
+            case .shots: "Shots"
+            case .storyboard: "Board"
+            case .takes: "Takes"
+            }
+        }
     }
 
     @State private var pane: Pane = .script
@@ -38,7 +48,7 @@ struct ScriptShotListEditorView: View {
             .toolbar {
                 ToolbarItem(placement: .principal) {
                     Picker("Section", selection: $pane) {
-                        ForEach(Pane.allCases) { Text($0.rawValue).tag($0) }
+                        ForEach(Pane.allCases) { Text($0.tabLabel).tag($0) }
                     }
                     .pickerStyle(.segmented)
                     .frame(maxWidth: 420)

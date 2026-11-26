@@ -70,16 +70,29 @@ final class ScreenshotTests: XCTestCase {
         snapshot(app, "04-takes-browser")
     }
 
-    @MainActor func test05Diagnostics() {
+    @MainActor func test05SocialExport() {
+        let app = launch(scene: "social")
+        let toggle = app.switches["Vertical 9:16"]
+        XCTAssertTrue(toggle.waitForExistence(timeout: 15))
+        waitUntilHittable(app.buttons["Cancel"])
+        snapshot(app, "05-vertical-captions-export", settle: 2)
+    }
+
+    /// Not part of the App Store set any more (gauges at 0.00 don't sell the app), but it
+    /// still checks that the diagnostics sheet opens.
+    @MainActor func test06Diagnostics() {
         let app = launch(scene: "diagnostics")
         waitFor("diagnostics", in: app)
-        // The sheet opens full height for this scene. Wait until it has finished sliding
-        // up (the Done button is hittable) so the glass isn't caught mid-blur.
-        let done = app.buttons["Done"]
-        _ = done.waitForExistence(timeout: 10)
+        waitUntilHittable(app.buttons["Done"])
+        snapshot(app, "06-launch-diagnostics", settle: 3)
+    }
+
+    /// Sheets slide up with a glass blur; wait until the button is tappable so the shot
+    /// isn't caught mid-animation.
+    private func waitUntilHittable(_ element: XCUIElement) {
+        _ = element.waitForExistence(timeout: 10)
         let deadline = Date().addingTimeInterval(10)
-        while !done.isHittable && Date() < deadline { Thread.sleep(forTimeInterval: 0.25) }
-        snapshot(app, "05-launch-diagnostics", settle: 3)
+        while !element.isHittable && Date() < deadline { Thread.sleep(forTimeInterval: 0.25) }
     }
 
     // MARK: Smoke
@@ -88,13 +101,13 @@ final class ScreenshotTests: XCTestCase {
     @MainActor func testRecordMarkerStopSmoke() {
         let app = launch(scene: "flat")
         waitFor("innerDirector", in: app)
-        // The toolbar button by identifier: several controls are labelled "Record"
-        // (rail, fallback strip), and their labels change during the countdown.
+        // The rail's record button by identifier (the deck and fallback strip have their
+        // own); its label reads "Cancel countdown" during the countdown.
         let toggle = app.buttons["recordToggle"].firstMatch
         XCTAssertTrue(toggle.waitForExistence(timeout: 10))
         XCTAssertEqual(toggle.label, "Record")
         toggle.tap()
-        let rolling = NSPredicate(format: "label == 'Stop'")
+        let rolling = NSPredicate(format: "label == 'Stop recording'")
         expectation(for: rolling, evaluatedWith: toggle)
         // 3 s countdown, plus slack: on a busy CI simulator each label check can take
         // several seconds, so 10 s allowed only two looks.

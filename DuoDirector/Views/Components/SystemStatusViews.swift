@@ -190,7 +190,7 @@ struct DropMarkerButton: View {
                 .frame(maxWidth: .infinity, minHeight: 52)
         }
         .buttonStyle(.borderedProminent)
-        .tint(.cyan)
+        .tint(.yellow)          // yellow = action; cyan is kept for Dual-Cam / Host only
         .foregroundStyle(.black)
         .disabled(!state.isRecording)
         .contextMenu {

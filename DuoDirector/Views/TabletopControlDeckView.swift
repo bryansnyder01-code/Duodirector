@@ -56,8 +56,9 @@ struct TabletopControlDeckView: View {
         if state.isDualCam {
             DeckPad(title: "ROLL · PODCAST") {
                 VStack(spacing: 10) {
+                    // No timecode here: the Host tile right above already shows it, and
+                    // the space keeps the rating stars on screen.
                     RecordButton(state: state, engine: engine, diameter: 80)
-                    RecordingTimecode(state: state)
                     DropMarkerButton(state: state, engine: engine)
                     VStack(spacing: 2) {
                         Text(state.isRecording ? "RATE THIS TAKE" : "RATE LAST TAKE")
@@ -113,6 +114,8 @@ struct TabletopControlDeckView: View {
                             .frame(width: 72, height: 48)
                     }
                     .buttonStyle(.borderedProminent)
+                    .tint(.yellow)               // one accent: yellow for actions, red for record
+                    .foregroundStyle(.black)
                     .accessibilityLabel(state.isPrompterPlaying ? "Pause teleprompter" : "Play teleprompter")
                 }
             }

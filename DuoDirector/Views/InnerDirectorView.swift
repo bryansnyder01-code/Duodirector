@@ -293,7 +293,7 @@ private struct Viewfinder: View {
     var body: some View {
         if prompterAboveTiles && showsPrompter {
             VStack(spacing: 0) {
-                prompterBand.frame(height: prompterHeight * 0.8)
+                prompterBand.frame(height: prompterHeight * 0.6)   // ~2 lines; the tiles keep the rest
                 viewfinderStack(prompterOverlaid: false)
             }
         } else {

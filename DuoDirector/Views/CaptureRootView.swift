@@ -175,7 +175,16 @@ struct CaptureRootView: View {
         switch options.scene {
         case .cover: showOuterSimulator = true
         case .flat: state.simulatedHingePosture = .flat
-        case .tabletop: state.simulatedHingePosture = .tabletopLShape
+        case .tabletop:
+            state.simulatedHingePosture = .tabletopLShape
+            // Hold the prompter at the top of the script: by the time the take has rolled
+            // and the shot settles, a playing prompter has scrolled past the end. Rolling
+            // restarts the prompter, so wait for the take to start first.
+            Task { @MainActor in
+                for _ in 0..<100 where !state.isRecording { try? await Task.sleep(for: .milliseconds(100)) }
+                state.setPrompterPlaying(false)
+                state.resetPrompter()
+            }
         case .takes: editorStartPane = .takes; showEditor = true
         case .social: socialExportTake = state.takes.max { $0.takeNumber < $1.takeNumber }
         case .diagnostics: showDiagnostics = true

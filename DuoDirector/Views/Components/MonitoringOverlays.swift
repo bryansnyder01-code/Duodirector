@@ -34,8 +34,9 @@ struct FramingGuidesOverlay: View {
                     Path(r).stroke(.yellow.opacity(0.9), style: StrokeStyle(lineWidth: 1.5, dash: [8, 5]))
                     Path(CGRect(x: r.minX, y: r.maxY - r.height * 0.2, width: r.width, height: r.height * 0.2))
                         .fill(.yellow.opacity(0.08))
-                    // Bottom corner: the top of a portrait frame is under the teleprompter.
-                    tag("9:16 Reels/TikTok", .yellow, in: r, at: .bottomTrailing)
+                    // Middle of the left edge: the top is under the teleprompter and the
+                    // bottom corners hold the timecode, meters and Host tile.
+                    tag("9:16 Reels/TikTok", .yellow, in: r, at: .leading)
                 }
             }
             .opacity(opacity)

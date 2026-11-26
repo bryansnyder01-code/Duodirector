@@ -132,7 +132,10 @@ struct InnerDirectorView: View {
         } secondary: {
             // SECONDARY: ~78% viewfinder pane | ~22% trailing thumb rail.
             HStack(spacing: 0) {
-                ViewfinderPane(state: state, engine: engine)
+                // No prompter band here: the Shot List card floats over that spot, and
+                // the talent reads the script on the cover display (or the fallback strip
+                // below the viewfinder when the cover monitor is gone).
+                ViewfinderPane(state: state, engine: engine, prompterHeight: 0)
                     .frame(width: paneWidth)
                     .padding(.leading, insets.leading)
                 RightRailToolbar(state: state, engine: engine, showScriptDrawer: $showScriptDrawer)
@@ -206,12 +209,14 @@ struct InnerDirectorView: View {
 private struct ViewfinderPane: View {
     let state: StudioSessionState
     let engine: CameraEngine
+    /// 0 hides the in-viewfinder prompter band.
+    var prompterHeight: CGFloat = 110
 
     var body: some View {
         VStack(spacing: 0) {
             ZStack {
                 Color.black
-                Viewfinder(state: state, engine: engine, prompterHeight: 110)
+                Viewfinder(state: state, engine: engine, prompterHeight: prompterHeight)
                     .aspectRatio(1.4, contentMode: .fit)
                     .clipShape(.rect(cornerRadius: 6))
             }
@@ -280,7 +285,28 @@ private struct Viewfinder: View {
 
     enum DualPreviewLayout { case automatic, sideBySide }
 
+    /// Tabletop Host | Guest tiles: the prompter gets its own band above the tiles, so
+    /// the script never runs across the HOST / GUEST labels.
+    private var prompterAboveTiles: Bool { state.isDualCam && dualLayout == .sideBySide }
+    private var showsPrompter: Bool { !state.scriptText.isEmpty && prompterHeight > 0 }
+
     var body: some View {
+        if prompterAboveTiles && showsPrompter {
+            VStack(spacing: 0) {
+                prompterBand.frame(height: prompterHeight * 0.8)
+                viewfinderStack(prompterOverlaid: false)
+            }
+        } else {
+            viewfinderStack(prompterOverlaid: showsPrompter)
+        }
+    }
+
+    private var prompterBand: some View {
+        TeleprompterText(state: state, fontScale: 0.75)
+            .background(.black.opacity(0.5))
+    }
+
+    private func viewfinderStack(prompterOverlaid: Bool) -> some View {
         ZStack {
             cameraLayer
             if !(state.isDualCam && (dualLayout == .sideBySide || state.dualExportStyle == .splitScreenComposite)) {
@@ -290,10 +316,8 @@ private struct Viewfinder: View {
             }
 
             VStack(spacing: 0) {
-                if !state.scriptText.isEmpty {
-                    TeleprompterText(state: state, fontScale: 0.75)
-                        .frame(maxHeight: prompterHeight)
-                        .background(.black.opacity(0.5))
+                if prompterOverlaid {
+                    prompterBand.frame(maxHeight: prompterHeight)
                 }
                 HStack { OverlayBadges(state: state); Spacer() }.padding(8)
                 Spacer()
